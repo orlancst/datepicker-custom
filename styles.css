@@ -1,5 +1,6 @@
 html {
     font-size: 16px;
+    font-family: Arial;
 }
 
 body {
@@ -92,4 +93,114 @@ body {
 .days-num.selected-date a{
   background-color: #212121;
   color: white !important;
+}
+
+.calendario-popup .contenido-calendario .body-calendario .footer-body-calendario {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.custom-select {
+  position: relative;
+  
+}
+
+.custom-select select {
+  display: none; /*hide original SELECT element: */
+}
+
+.select-selected {
+  background-color: #696969;
+  background-color: rgba(105, 105, 105, 0.8);
+}
+
+/* Style the arrow inside the select element: */
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+
+/* Point the arrow upwards when the select box is open (active): */
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+  top: 7px;
+}
+
+/* style the items (options), including the selected item: */
+.select-items div,.select-selected {
+  color: #ffffff;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Style items (options): */
+.select-items {
+  position: absolute;
+  background-color: #696969;
+  background-color: rgba(105, 105, 105, 0.8);
+  backdrop-filter: blur(3px);;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  border-radius: 10px;
+  height: 290px;
+  overflow-y: auto;
+}
+
+/* Firefox */
+.select-items {
+  scrollbar-width: thin;
+  scrollbar-color: #BFBFBF transparent;
+}
+
+/* Chrome, Edge and Safari */
+.select-items::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+.select-items::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background-color: transparent;
+}
+
+.select-items::-webkit-scrollbar-track:hover {
+  background-color: #B8C0C2;
+}
+
+.select-items::-webkit-scrollbar-track:active {
+  background-color: #B8C0C2;
+}
+
+.select-items::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background-color: #BFBFBF;
+}
+
+.select-items::-webkit-scrollbar-thumb:hover {
+  background-color: #62A34B;
+}
+
+.select-items::-webkit-scrollbar-thumb:active {
+  background-color: #62A34B;
+}
+
+/* Hide the items when the select box is closed: */
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
 }

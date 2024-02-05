@@ -10,10 +10,10 @@
     <!-- Contenedor principal del selector de fechas -->
     <div class="calendario-container">
       <!-- Input de tipo date oculto -->
-      <input type="text" id="fechaInput" />
+      <input type="text" id="fechaInput" readonly/>
 
       <!-- Calendario emergente -->
-      <div class="calendario-popup" id="calendarioPopup">
+      <div class="calendario-popup" data-opened="false" id="calendarioPopup">
         <span class="calendario-popup-close" onclick="cerrarCalendario()"
           >&times;</span
         >
@@ -41,7 +41,62 @@
 
             </div>
             <div class="footer-body-calendario">
-                
+                <span>Selecciona hora</span>
+                <div class="custom-select">
+                  <select name="select-hora" id="selectTime">
+                    <option value="">Selecciona primero fecha</option>
+                    <option value="00:00">12:00 am</option>
+                    <option value="00:30">12:30 am</option>
+                    <option value="01:00">01:00 am</option>
+                    <option value="01:30">01:30 am</option>
+                    <option value="02:00">02:00 am</option>
+                    <option value="02:30">02:30 am</option>
+                    <option value="03:00">03:00 am</option>
+                    <option value="03:30">03:30 am</option>
+                    <option value="04:00">04:00 am</option>
+                    <option value="04:30">04:30 am</option>
+                    <option value="05:00">05:00 am</option>
+                    <option value="05:30">05:30 am</option>
+                    <option value="06:00">06:00 am</option>
+                    <option value="06:30">06:30 am</option>
+                    <option value="07:00">07:00 am</option>
+                    <option value="07:30">07:30 am</option>
+                    <option value="08:00">08:00 am</option>
+                    <option value="08:30">08:30 am</option>
+                    <option value="09:00">09:00 am</option>
+                    <option value="09:30">09:30 am</option>
+                    <option value="10:00">10:00 am</option>
+                    <option value="10:30">10:30 am</option>
+                    <option value="11:00">11:00 am</option>
+                    <option value="11:30">11:30 am</option>
+                    <option value="12:00">12:00 pm</option>
+                    <option value="12:30">12:30 pm</option>
+                    <option value="13:00">01:00 pm</option>
+                    <option value="13:30">01:30 pm</option>
+                    <option value="14:00">02:00 pm</option>
+                    <option value="14:30">02:30 pm</option>
+                    <option value="15:00">03:00 pm</option>
+                    <option value="15:30">03:30 pm</option>
+                    <option value="16:00">04:00 pm</option>
+                    <option value="16:30">04:30 pm</option>
+                    <option value="17:00">05:00 pm</option>
+                    <option value="17:30">05:30 pm</option>
+                    <option value="18:00">06:00 pm</option>
+                    <option value="18:30">06:30 pm</option>
+                    <option value="19:00">07:00 pm</option>
+                    <option value="19:30">07:30 pm</option>
+                    <option value="20:00">08:00 pm</option>
+                    <option value="20:30">08:30 pm</option>
+                    <option value="21:00">09:00 pm</option>
+                    <option value="21:30">09:30 pm</option>
+                    <option value="22:00">10:00 pm</option>
+                    <option value="22:30">10:30 pm</option>
+                    <option value="23:00">11:00 pm</option>
+                    <option value="23:30">11:30 pm</option>
+  
+                  </select>
+                  
+                </div>
             </div>
           </div>
         </div>
