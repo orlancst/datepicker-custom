@@ -1,0 +1,95 @@
+html {
+    font-size: 16px;
+}
+
+body {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+}
+
+/* Estilos personalizados para el contenedor del calendario */
+.calendario-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* Estilos para el calendario emergente */
+.calendario-popup {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  background-color: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 5px;
+  width: 270px;
+  height: fit-content;
+}
+
+/* Estilos para los días del calendario */
+.calendario-popup .contenido-calendario {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.calendario-popup .contenido-calendario .header-calendario {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.calendario-popup .contenido-calendario .body-calendario .weekdays, .calendario-popup .contenido-calendario .days-selector {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    
+}
+
+.calendario-popup .contenido-calendario .days-selector {
+  margin-top: 10px;
+  row-gap: 7px;
+}
+
+.calendario-popup .contenido-calendario .days-selector span {
+  text-align: center;
+}
+
+.calendario-popup .contenido-calendario .days-selector span a {
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.calendario-popup .contenido-calendario .days-selector .days-in-month a {
+  color: #000000;
+
+}
+
+.calendario-popup .contenido-calendario .days-selector .days-before-month a, .calendario-popup .contenido-calendario .days-selector .days-after-month a {
+  color: #909090;
+
+}
+
+.calendario-popup .contenido-calendario .body-calendario .weekdays span {
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Estilos para el botón de cerrar el calendario */
+.calendario-popup-close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  color: #333;
+}
+
+.days-num.selected-date {
+  background-color: #212121;
+  border-radius: 6px;
+}
+
+.days-num.selected-date a{
+  background-color: #212121;
+  color: white !important;
+}

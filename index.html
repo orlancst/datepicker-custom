@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Datepicker</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <!-- Contenedor principal del selector de fechas -->
+    <div class="calendario-container">
+      <!-- Input de tipo date oculto -->
+      <input type="text" id="fechaInput" />
+
+      <!-- Calendario emergente -->
+      <div class="calendario-popup" id="calendarioPopup">
+        <span class="calendario-popup-close" onclick="cerrarCalendario()"
+          >&times;</span
+        >
+        <div class="contenido-calendario">
+          <!-- Contenido del calendario generado dinámicamente con JavaScript -->
+          <div class="header-calendario">
+            <button class="changeMonth prevMonth" onclick="goToPrevMonth()"><</button>
+                <div class="texto-header-calendario">
+                    <span class="month-selected"></span>
+                    <span class="year-selected"></span>
+                </div>
+            <button class="changeMonth nextMonth" onclick="goToNextMonth()">></button>
+          </div>
+          <div class="body-calendario">
+            <div class="weekdays">
+                <span>D</span>
+                <span>L</span>
+                <span>M</span>
+                <span>M</span>
+                <span>J</span>
+                <span>V</span>
+                <span>S</span>
+            </div>
+            <div class="days-selector">
+
+            </div>
+            <div class="footer-body-calendario">
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
