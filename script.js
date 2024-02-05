@@ -93,7 +93,6 @@ const obtenerNombreMes = (numeroMes) => {
 daysNumber.forEach((el) => {
   el.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log('a');
   });
 })
 
@@ -129,7 +128,6 @@ function selectThisDay(year, month, day) {
 
   const selectSelected = document.querySelector('.select-selected');
   if (!selectSelected.classList.contains('select-arrow-active')) {
-    console.log(selectSelected);
     selectSelected.nextSibling.classList.toggle("select-hide");
     selectSelected.classList.toggle("select-arrow-active");
 
@@ -262,21 +260,28 @@ function validarFechaHoraFinal(fecha, hora) {
 
   if ((Object.keys(fecha).length !== 0) && (hora !== undefined)) {
 
-    const { year, month, day } = fecha;
+    let { year, month, day } = fecha;
+
+    month = month < 9 ? '0' + (month + 1).toString() : (month + 1).toString();
+    day = day < 10 ? '0' + day.toString() : day.toString();
 
     userSelectedTime = `${year}-${month}-${day} ${hora}`
-    inputFecha.value = userSelectedTime;
-    console.log(userSelectedTime)
+    inputFecha.value = `${year}-${month}-${day} ${hora}`;
 
   }
 
 }
 
-document.addEventListener("click", (e) => {
-  let calendarIsClosed = document.getElementById("calendarioPopup").getAttribute('data-opened')
-  // if (calendarIsClosed === 'false') {
-  //   cerrarCalendario()
-  // }
+document.body.addEventListener("click", (e) => {
+  const calendar = document.getElementById("calendarioPopup");
+  const closeCalendar = calendar.getAttribute("data-opened");
 
-  closeAllSelect()
+  if (!inputFecha.contains(e.target)) {
+    if (closeCalendar === 'true' && !calendar.contains(e.target)) {
+      cerrarCalendario()
+      closeAllSelect()
+    }
+  
+    
+  }
 });

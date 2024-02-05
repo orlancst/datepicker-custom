@@ -67,7 +67,7 @@ body {
 }
 
 .calendario-popup .contenido-calendario .days-selector .days-before-month a, .calendario-popup .contenido-calendario .days-selector .days-after-month a {
-  color: #909090;
+  color: #afafaf;
 
 }
 
@@ -203,4 +203,11 @@ body {
 
 .select-items div:hover, .same-as-selected {
   background-color: rgba(0, 0, 0, 0.1);
+}
+
+.formulario-planes-byhours .input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
 }
