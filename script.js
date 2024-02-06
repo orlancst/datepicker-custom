@@ -166,6 +166,7 @@ function uncheckAllDate() {
 }
 
 function selectTimeConfig() {
+  
   let x, i, j, l, ll, selElmnt, a, b, c;
   /* Look for any elements with the class "custom-select": */
   x = document.getElementsByClassName("custom-select");
@@ -187,6 +188,7 @@ function selectTimeConfig() {
       c = document.createElement("DIV");
       c.innerHTML = selElmnt.options[j].innerHTML;
       c.addEventListener("click", function (e) {
+        const calendarOpened = document.querySelector(".calendario-popup").getAttribute('data-opened');
         /* When an item is clicked, update the original select box,
         and the selected item: */
         var y, i, k, s, h, sl, yl;
@@ -197,9 +199,13 @@ function selectTimeConfig() {
           if (s.options[i].innerHTML == this.innerHTML) {
             s.selectedIndex = i;
             h.innerHTML = this.innerHTML;
-            selectedHour = this.innerHTML;
 
-            validarFechaHoraFinal(selectedDateArr, this.innerHTML);
+            if (calendarOpened === 'true') {
+              selectedHour = this.innerHTML;
+              validarFechaHoraFinal(selectedDateArr, this.innerHTML);
+
+            }
+
             y = this.parentNode.getElementsByClassName("same-as-selected");
             yl = y.length;
             for (k = 0; k < yl; k++) {
@@ -279,6 +285,8 @@ document.body.addEventListener("click", (e) => {
   if (!inputFecha.contains(e.target)) {
     if (closeCalendar === 'true' && !calendar.contains(e.target)) {
       cerrarCalendario()
+      closeAllSelect()
+    } else if (document.getElementsByClassName('select-arrow-active').length > 0) {
       closeAllSelect()
     }
   
