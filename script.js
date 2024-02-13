@@ -10,12 +10,43 @@ const nextMonthBtn = document.querySelector('.nextMonth');
 const prevMonthBtn = document.querySelector('.prevMonth');
 const timeSelector = document.getElementById('selectTime');
 const inputFecha = document.getElementById('fechaInput');
+const carruselTimeContainer = document.querySelector('.carrusel-vertical-horas');
 
 const weekday = {
   full: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
   short: ["D", "L", "M", "M", "J", "V", "S"]
 };
 
+const timeOptions = [
+  {f24h: "00:00", f12h: "12:00 a.m."},
+  {f24h: "01:00", f12h: "1:00 a.m."},
+  {f24h: "02:00", f12h: "2:00 a.m."},
+  {f24h: "03:00", f12h: "3:00 a.m."},
+  {f24h: "04:00", f12h: "4:00 a.m."},
+  {f24h: "05:00", f12h: "5:00 a.m."},
+  {f24h: "06:00", f12h: "6:00 a.m."},
+  {f24h: "07:00", f12h: "7:00 a.m."},
+  {f24h: "08:00", f12h: "8:00 a.m."},
+  {f24h: "09:00", f12h: "9:00 a.m."},
+  {f24h: "10:00", f12h: "10:00 a.m."},
+  {f24h: "11:00", f12h: "11:00 a.m."},
+  {f24h: "12:00", f12h: "12:00 p.m."},
+  {f24h: "13:00", f12h: "1:00 p.m."},
+  {f24h: "14:00", f12h: "2:00 p.m."},
+  {f24h: "15:00", f12h: "3:00 p.m."},
+  {f24h: "16:00", f12h: "4:00 p.m."},
+  {f24h: "17:00", f12h: "5:00 p.m."},
+  {f24h: "18:00", f12h: "6:00 p.m."},
+  {f24h: "19:00", f12h: "7:00 p.m."},
+  {f24h: "20:00", f12h: "8:00 p.m."},
+  {f24h: "21:00", f12h: "9:00 p.m."},
+  {f24h: "22:00", f12h: "10:00 p.m."},
+  {f24h: "23:00", f12h: "11:00 p.m."},
+]
+
+let encima = timeOptions.length -1;
+let medio = 0;
+let debajo = 1;
 
 function abrirCalendario() {
   generarCalendario();
@@ -73,8 +104,8 @@ window.onload = function () {
   document.getElementById("fechaInput").addEventListener("click", function () {
     abrirCalendario();
   });
-  selectTimeConfig();
-
+  configSelectors();
+  timeInitialConfig(encima, medio, debajo);
   $yearSelected = $yearSelected !== undefined ? $yearSelected : new Date().getFullYear();
   $monthSelected = $monthSelected !== undefined ? $monthSelected : new Date().getMonth();
 };
@@ -165,7 +196,7 @@ function uncheckAllDate() {
   })
 }
 
-function selectTimeConfig() {
+function configSelectors() {
   
   let x, i, j, l, ll, selElmnt, a, b, c;
   /* Look for any elements with the class "custom-select": */
@@ -199,12 +230,6 @@ function selectTimeConfig() {
           if (s.options[i].innerHTML == this.innerHTML) {
             s.selectedIndex = i;
             h.innerHTML = this.innerHTML;
-
-            if (calendarOpened === 'true') {
-              selectedHour = this.innerHTML;
-              validarFechaHoraFinal(selectedDateArr, this.innerHTML);
-
-            }
 
             y = this.parentNode.getElementsByClassName("same-as-selected");
             yl = y.length;
@@ -277,6 +302,47 @@ function validarFechaHoraFinal(fecha, hora) {
   }
 
 }
+
+function timeInitialConfig(encima, medio, debajo) {
+  
+  let str = '';
+
+  str += `<li onclick="chooseHour('up')">${timeOptions[encima].f12h}</li>`;
+  str += `<li class="selected">${timeOptions[medio].f12h}</li>`;
+  str += `<li onclick="chooseHour('down')">${timeOptions[debajo].f12h}</li>`;
+
+  carruselTimeContainer.querySelector('ul').innerHTML = str;
+  validarFechaHoraFinal(selectedDateArr, timeOptions[medio].f12h);
+}
+
+function chooseHour(direction) {
+
+  if (direction === 'up') {
+
+    encima = encima != 0 ? encima - 1 : timeOptions.length - 1;
+    medio = medio != 0 ? medio - 1 : timeOptions.length - 1;
+    debajo = debajo != 0 ? debajo - 1 : timeOptions.length - 1;
+
+  } else if (direction === 'down') {
+
+    encima = encima != timeOptions.length - 1 ? encima +1 : 0;
+    medio = medio != timeOptions.length - 1 ? medio +1 : 0;
+    debajo = debajo != timeOptions.length - 1 ? debajo +1 : 0;
+
+  }
+
+  timeInitialConfig(encima, medio, debajo);
+
+}
+
+carruselTimeContainer.addEventListener('wheel', (el) => {
+  el.preventDefault();
+  if (el.deltaY > 0) {
+    chooseHour('down');
+  } else {
+    chooseHour('up');
+  }
+})
 
 document.body.addEventListener("click", (e) => {
   const calendar = document.getElementById("calendarioPopup");

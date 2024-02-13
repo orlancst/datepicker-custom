@@ -7,6 +7,7 @@ body {
     display: grid;
     place-items: center;
     height: 100vh;
+    background-color: #BFBFBF;
 }
 
 /* Estilos personalizados para el contenedor del calendario */
@@ -21,10 +22,11 @@ body {
   display: none;
   position: absolute;
   z-index: 100;
-  background-color: #fff;
+  background-color: rgba(51, 28, 84, 96%);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   padding: 20px;
-  border-radius: 5px;
+  border: 4px solid white;
+  border-radius: 20px;
   width: 270px;
   height: fit-content;
 }
@@ -39,11 +41,20 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-bottom: 15px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.calendario-popup .contenido-calendario .header-calendario .changeMonth{
+  background-color: transparent;
+  border: 0;
+  color: white;
+  cursor: pointer;
+  font-size: 24px;
 }
 
 .calendario-popup .contenido-calendario .header-calendario .texto-header-calendario {
-  color: #ff5800;
+  color: white;
   font-size: 1rem;
   font-weight: 600;
 }
@@ -51,6 +62,7 @@ body {
 .calendario-popup .contenido-calendario .body-calendario .weekdays, .calendario-popup .contenido-calendario .days-selector {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
+    place-items: center;
     
 }
 
@@ -65,11 +77,18 @@ body {
 
 .calendario-popup .contenido-calendario .days-selector span a {
   text-decoration: none;
-  font-weight: 600;
+  font-weight: normal;
+}
+
+.calendario-popup .contenido-calendario .days-selector .days-num {
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
 }
 
 .calendario-popup .contenido-calendario .days-selector .days-in-month a {
-  color: #000000;
+  color: #fff;
 
 }
 
@@ -81,6 +100,7 @@ body {
 .calendario-popup .contenido-calendario .body-calendario .weekdays span {
     font-weight: bold;
     text-align: center;
+    color: white;
 }
 
 /* Estilos para el botón de cerrar el calendario */
@@ -93,20 +113,27 @@ body {
 }
 
 .days-num.selected-date {
-  background-color: #212121;
-  border-radius: 6px;
+  background-color: #ff5800;
+  border-radius: 50%;
+ 
 }
 
 .days-num.selected-date a{
-  background-color: #212121;
   color: white !important;
+  font-weight: bold !important; 
 }
 
 .calendario-popup .contenido-calendario .body-calendario .footer-body-calendario {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 15px;
+  margin-top: 5px;
+}
+
+.calendario-popup hr.divisor {
+  background-color: white;
+  height: 1.5px;
+  width: 100%;
 }
 
 .custom-select {
@@ -379,6 +406,53 @@ body {
   -webkit-transform: scaleX(1);
   -ms-transform: scaleX(1);
   transform: scaleX(1);
+}
+
+.carrusel-vertical-horas ul, .carrusel-vertical-horas li{
+  list-style: none;
+}
+
+.carrusel-vertical-horas {
+  width: 100%;
+  position: relative;
+}
+
+.carrusel-vertical-horas .carrControl {
+  position: absolute;
+  right: 10px;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  overflow: auto;
+  color: white;
+}
+
+.carrusel-vertical-horas .upArr {
+  top: 2px;
+}
+
+.carrusel-vertical-horas .doArr {
+  bottom: -6px;
+}
+
+.carrusel-vertical-horas ul {
+  height: 70px;
+  text-align: center;
+  padding-left: 0;
+  margin: 0;
+}
+
+.carrusel-vertical-horas ul li {
+  padding: 4px 0;
+  user-select: none;
+  cursor: pointer;
+  color: white;
+}
+
+.carrusel-vertical-horas ul li.selected {
+  background-color: #ff5800;
+  border-radius: 30px;
+  font-weight: 600;
 }
 
 /*------------------ MEDIA QUERIES ------------------- */
