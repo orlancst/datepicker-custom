@@ -182,7 +182,7 @@ body {
 .input-container label {
   font-weight: 600;
   text-transform: uppercase;
-  color: #ff5800;
+  color: #ffffff;
 }
 
 .input-container input{
@@ -193,6 +193,10 @@ body {
   border: 0;
   border-bottom: 2px solid black;
   cursor: pointer;
+}
+
+.input-container input::placeholder {
+  color: #ffffff;
 }
 
 .calendario-container .icon-for-input-calendar {
@@ -270,12 +274,22 @@ body {
 
 .formulario-planes-byhours {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  background-color: #e5deea;
-  width: 250px;
+  background-color: #4f0b7b;
   padding: 30px;
   border-radius: 6px;
+}
+
+.formulario-planes-byhours.horizontal {
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.formulario-planes-byhours.vertical {
+  width: 250px;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .formulario-planes-byhours .input-container {
@@ -286,13 +300,17 @@ body {
 
 }
 
+.formulario-planes-byhours.horizontal .input-container{
+  width: 20%;
+}
+
 .input-container .selector-container select{
   width: 100%;
 }
 
 #selectTime + .select-selected, #rooms-select + .select-selected, #hotel-select + .select-selected, #adults-select + .select-selected, #plan-select + .select-selected  {
   background-color: transparent;
-  color: #646464;
+  color: #ffffff;
   border: 0;
   border-bottom: 2px solid black;
   border-radius: 0;
@@ -308,14 +326,13 @@ body {
 }
 
 .formulario-planes-byhours .boton-reservar {
-  overflow: visible;
-  width: 100%;
+  overflow: hidden;
   display: flex;
   -webkit-box-pack: center;
   justify-content: center;
+  align-items: center;
   background-color: #ff5800;
-  border: none;
-  
+  /* border: none; */
   vertical-align: middle;
   -webkit-transition: color .1s 30ms;
   -o-transition: color .1s 30ms;
@@ -334,6 +351,15 @@ body {
   transition: color .2s ease-in-out,background-color .2s ease-in-out,border-color .2s ease-in-out;
   padding: 10px 50px;
   cursor: pointer;
+}
+
+.formulario-planes-byhours.horizontal .boton-reservar {
+  width: 200px;
+  height: fit-content;
+}
+
+.formulario-planes-byhours.vertical .boton-reservar {
+  width: 100%;
 }
 
 .formulario-planes-byhours .boton-reservar:hover {
