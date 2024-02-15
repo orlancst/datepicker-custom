@@ -1,4 +1,4 @@
-let $yearSelected, $monthSelected, previousYear, nextYear, previousMonth, nextMonth;
+let $yearSelected, $monthSelected, $endYearSelected, $endMonthSelected, previousYear, nextYear, previousMonth, nextMonth;
 let $cantAdults = 1;
 const $maxCantAdults = 3; //cantidad maxima de adultos en una sola habitacion
 let selectedDateArr = {};
@@ -51,49 +51,51 @@ let encima = timeOptions.length -1;
 let medio = 0;
 let debajo = 1;
 
-function abrirCalendario() {
-  generarCalendario();
+function abrirCalendario(tiempo) {
+
+  let yearMode = tiempo === 'start' ? $yearSelected : $endYearSelected;
+  let monthMode = tiempo === 'start' ? $monthSelected : $endMonthSelected;
+
+  generarCalendario(yearMode, monthMode, tiempo);
   validateIfDateIsSelected(selectedDateArr)
   document.getElementById("calendarioPopup").setAttribute("data-opened", "true");
   document.getElementById("calendarioPopup").style.display = "block";
 }
-
 
 function cerrarCalendario() {
   document.getElementById("calendarioPopup").setAttribute("data-opened", "false");
   document.getElementById("calendarioPopup").style.display = "none";
 }
 
+function generarCalendario($year, $month, tiempo) {
+  monthSelectedLabel.innerText = obtenerNombreMes($month);
+  yearSelectedLabel.innerText = $year;
 
-function generarCalendario() {
-  monthSelectedLabel.innerText = obtenerNombreMes($monthSelected);
-  yearSelectedLabel.innerText = $yearSelected;
+  previousYear = $year - 1;
+  nextYear = $year + 1;
+  previousMonth = $month === 0 ? 11 : $month - 1;
+  nextMonth = $month === 11 ? 0 : $month + 1;
 
-  previousYear = $yearSelected - 1;
-  nextYear = $yearSelected + 1;
-  previousMonth = $monthSelected === 0 ? 11 : $monthSelected - 1;
-  nextMonth = $monthSelected === 11 ? 0 : $monthSelected + 1;
-
-  const daysForMonth = obtenerDiasEnMes($yearSelected, $monthSelected);
-  const firstDayWeekMonth = new Date(`${$yearSelected}-${$monthSelected + 1}-01`).getDay();
+  const daysForMonth = obtenerDiasEnMes($year, $month);
+  const firstDayWeekMonth = new Date(`${$year}-${$month + 1}-01`).getDay();
   const firstDayWeekMonthLetter = weekday.short[firstDayWeekMonth];
 
   let str = '';
-  let daysBeforeNextMonth = firstDayWeekMonth === 0 ? 0 : obtenerDiasEnMes(($monthSelected === 0 ? previousYear : $yearSelected), previousMonth) - firstDayWeekMonth + 1;
+  let daysBeforeNextMonth = firstDayWeekMonth === 0 ? 0 : obtenerDiasEnMes(($month === 0 ? previousYear : $year), previousMonth) - firstDayWeekMonth + 1;
   let daysLeft = firstDayWeekMonth;
   let daysCounter = 1;
   let daysAfter = 1;
 
   for (let i = 0; i < 42; i++) {
     if (daysLeft > 0) {
-      str += `<span class="days-num days-before-month" data-fecha="${(previousMonth === 11 ? previousYear : $yearSelected)}-${previousMonth}-${daysBeforeNextMonth}"><a href="#" onclick="selectThisDay(${(previousMonth === 11 ? previousYear : $yearSelected)}, ${previousMonth}, ${daysBeforeNextMonth})">${daysBeforeNextMonth}</a></span>`;
+      str += `<span class="days-num days-before-month" data-fecha="${(previousMonth === 11 ? previousYear : $year)}-${previousMonth}-${daysBeforeNextMonth}"><a href="#" onclick="selectThisDay(${(previousMonth === 11 ? previousYear : $year)}, ${previousMonth}, ${daysBeforeNextMonth})">${daysBeforeNextMonth}</a></span>`;
       daysBeforeNextMonth++;
       daysLeft--;
     } else if (daysCounter <= daysForMonth) {
-      str += `<span class="days-num days-in-month" data-fecha="${$yearSelected}-${$monthSelected}-${daysCounter}"><a href="#" onclick="selectThisDay(${$yearSelected}, ${$monthSelected}, ${daysCounter})">${daysCounter}</a></span>`;
+      str += `<span class="days-num days-in-month" data-fecha="${$year}-${$month}-${daysCounter}"><a href="#" onclick="selectThisDay(${$year}, ${$month}, ${daysCounter})">${daysCounter}</a></span>`;
       daysCounter++;
     } else {
-      str += `<span class="days-num days-after-month" data-fecha="${(nextMonth === 0 ? nextYear : $yearSelected)}-${nextMonth}-${daysAfter}"><a href="#" onclick="selectThisDay(${(nextMonth === 0 ? nextYear : $yearSelected)}, ${nextMonth}, ${daysAfter})">${daysAfter}</a></span>`;
+      str += `<span class="days-num days-after-month" data-fecha="${(nextMonth === 0 ? nextYear : $year)}-${nextMonth}-${daysAfter}"><a href="#" onclick="selectThisDay(${(nextMonth === 0 ? nextYear : $year)}, ${nextMonth}, ${daysAfter})">${daysAfter}</a></span>`;
       daysAfter++;
     }
   }
@@ -102,15 +104,22 @@ function generarCalendario() {
 
 }
 
+document.getElementById("fechaInput").addEventListener("click", function () {
+  abrirCalendario('start');
+});
+
+document.getElementById("endFechaInput").addEventListener("click", function () {
+  abrirCalendario('end');
+});
 
 window.onload = function () {
-  document.getElementById("fechaInput").addEventListener("click", function () {
-    abrirCalendario();
-  });
   configSelectors();
   timeInitialConfig(encima, medio, debajo);
   $yearSelected = $yearSelected !== undefined ? $yearSelected : new Date().getFullYear();
   $monthSelected = $monthSelected !== undefined ? $monthSelected : new Date().getMonth();
+
+  $endYearSelected = $endYearSelected !== undefined ? $endYearSelected : new Date().getFullYear();
+  $endMonthSelected = $endMonthSelected !== undefined ? $endMonthSelected : new Date().getMonth();
 };
 
 const obtenerDiasEnMes = (year, month) => {
