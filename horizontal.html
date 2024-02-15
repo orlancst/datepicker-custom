@@ -39,9 +39,7 @@
             data-opened="false"
             id="calendarioPopup"
           >
-            <!-- <span class="calendario-popup-close" onclick="cerrarCalendario()"
-              >&times;</span
-            > -->
+
             <div class="contenido-calendario">
               <!-- Contenido del calendario generado dinámicamente con JavaScript -->
               <div class="header-calendario">
@@ -87,7 +85,7 @@
       </div>
 
       <div class="input-container">
-        <label for="">Nùmero de habitaciones</label>
+        <label for="">¿Cuándo te vas?</label>
         <div class="custom-select">
           <select name="" id="rooms-select">
             <option value="">Selecciona</option>
@@ -116,15 +114,9 @@
 
       <div class="input-container">
         <label for="">Adultos</label>
-        <div class="custom-select">
-          <select name="" id="adults-select">
-            <option value="">Selecciona</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
+        <div class="number-selector-container">
+          <input type="text" class="inputNum" value="1 Huésped" id="adultsInput" data-opened="false" readonly />
+
         </div>
       </div>
 
@@ -146,7 +138,7 @@
 
       <button type="button" class="boton-reservar">
           <span class="btn-cont-texto">
-            <span class="btn-text-style">RESERVAR</span>
+            <span class="btn-text-style">BUSCAR</span>
           </span>
           <span class="btn-cont-fondo">
             <span class="fondo-idle"></span>

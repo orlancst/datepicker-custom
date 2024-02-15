@@ -23,7 +23,7 @@ body {
   position: absolute;
   z-index: 100;
   background-color: rgba(51, 28, 84, 96%);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 6px 6px 16px rgba(0, 0, 0, 0.8);
   padding: 20px;
   border: 4px solid white;
   border-radius: 20px;
@@ -60,9 +60,9 @@ body {
 }
 
 .calendario-popup .contenido-calendario .body-calendario .weekdays, .calendario-popup .contenido-calendario .days-selector {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    place-items: center;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  place-items: center;
     
 }
 
@@ -136,6 +136,11 @@ body {
   width: 100%;
 }
 
+.number-selector-container {
+  position: relative;
+  width: fit-content;
+}
+
 .custom-select {
   position: relative;
   
@@ -188,10 +193,10 @@ body {
 .input-container input{
   width: 111%;
   background-color: transparent;
-  color: #646464;
+  color: white;
   padding: 8px 16px;
   border: 0;
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid white;
   cursor: pointer;
 }
 
@@ -203,7 +208,7 @@ body {
   position: absolute;
   right: -45px;
   top: 5px;
-  fill: rgb(98, 98, 98);
+  fill: rgb(255, 255, 255);
   pointer-events: none;
 }
 
@@ -280,10 +285,11 @@ body {
 }
 
 .formulario-planes-byhours.horizontal {
-  width: 100%;
+  width: 95%;
   flex-direction: row;
   align-items: center;
-  gap: 20px;
+  justify-content: center;
+  gap: 30px;
 }
 
 .formulario-planes-byhours.vertical {
@@ -312,16 +318,16 @@ body {
   background-color: transparent;
   color: #ffffff;
   border: 0;
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid white;
   border-radius: 0;
 }
 
 #selectTime + .select-selected:after, #rooms-select + .select-selected:after, #hotel-select + .select-selected:after, #adults-select + .select-selected:after, #plan-select + .select-selected:after {
-  border-color: #646464 transparent transparent transparent;
+  border-color: #ffffff transparent transparent transparent;
 }
 
 #selectTime + .select-selected.select-arrow-active:after, #rooms-select + .select-selected.select-arrow-active:after, #hotel-select + .select-selected.select-arrow-active:after, #adults-select + .select-selected.select-arrow-active:after, #plan-select + .select-selected.select-arrow-active:after {
-  border-color: transparent transparent #646464 transparent;
+  border-color: transparent transparent #ffffff transparent;
   top: 7px;
 }
 
@@ -331,12 +337,11 @@ body {
   -webkit-box-pack: center;
   justify-content: center;
   align-items: center;
-  background-color: #ff5800;
-  /* border: none; */
   vertical-align: middle;
   -webkit-transition: color .1s 30ms;
   -o-transition: color .1s 30ms;
   transition: color .1s 30ms;
+  border: 0;
   color: #fff;
   border-radius: 50px;
   position: relative;
@@ -363,7 +368,7 @@ body {
 }
 
 .formulario-planes-byhours .boton-reservar:hover {
-  color: #000000;
+  color: #ff5800;
 }
 
 .formulario-planes-byhours .boton-reservar .btn-cont-texto{
@@ -408,7 +413,7 @@ body {
   -webkit-transform-origin: 100% 50%;
   -ms-transform-origin: 100% 50%;
   transform-origin: 100% 50%;
-  background-color: #000000;
+  background-color: #ff5800;
 }
 
 .formulario-planes-byhours .boton-reservar:hover .fondo-idle {
@@ -481,6 +486,49 @@ body {
   font-weight: 600;
 }
 
+.selectQuantityBox {
+  position: absolute;
+  background-color: #331c54;
+  border: 3px solid white;
+  border-radius: 50px;
+  box-shadow: 6px 6px 16px rgba(0, 0, 0, 0.8);
+  width: 120px;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selectQuantityBox a {
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.selectQuantityBox .minusOption, .selectQuantityBox .addOption {
+  text-align: center;
+  background-color: #ff5800;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+
+.selectQuantityBox .minusOption {
+  margin-left: 3px;
+}
+
+.selectQuantityBox .addOption {
+  margin-right: 3px;
+}
+
+.selectQuantityBox .selectedNumOption {
+  color: white;
+}
+
 /*------------------ MEDIA QUERIES ------------------- */
 
 @media only screen and (max-width: 768px){
@@ -488,6 +536,14 @@ body {
     left: -18%;
     width: 140%;
 
+  }
+
+  .formulario-planes-byhours.horizontal {
+    flex-direction: column;
+  }
+
+  .formulario-planes-byhours.horizontal .input-container {
+    width: 100%;
   }
 }
 

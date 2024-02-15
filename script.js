@@ -1,4 +1,6 @@
 let $yearSelected, $monthSelected, previousYear, nextYear, previousMonth, nextMonth;
+let $cantAdults = 1;
+const $maxCantAdults = 3; //cantidad maxima de adultos en una sola habitacion
 let selectedDateArr = {};
 let selectedHour = undefined;
 let userSelectedTime = undefined; //hidden for pass through query parameters.
@@ -11,6 +13,7 @@ const prevMonthBtn = document.querySelector('.prevMonth');
 const timeSelector = document.getElementById('selectTime');
 const inputFecha = document.getElementById('fechaInput');
 const carruselTimeContainer = document.querySelector('.carrusel-vertical-horas');
+const inputAdults = document.querySelector('.number-selector-container #adultsInput');
 
 const weekday = {
   full: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
@@ -347,6 +350,7 @@ carruselTimeContainer.addEventListener('wheel', (el) => {
 document.body.addEventListener("click", (e) => {
   const calendar = document.getElementById("calendarioPopup");
   const closeCalendar = calendar.getAttribute("data-opened");
+  const quantityBoxes = document.querySelectorAll('.selectQuantityBox');
 
   if (!inputFecha.contains(e.target)) {
     if (closeCalendar === 'true' && !calendar.contains(e.target)) {
@@ -356,6 +360,68 @@ document.body.addEventListener("click", (e) => {
       closeAllSelect()
     }
   
-    
   }
+
+  if (quantityBoxes.length !== 0 && !inputAdults.contains(e.target)) {
+    quantityBoxes.forEach(box => {
+      if (!box.contains(e.target)) {
+        let tipo = box.getAttribute('data-type');
+
+        if (tipo === 'adults') {
+          inputAdults.dataset.opened = 'false';
+        }
+
+        box.remove();
+      }
+    })
+  }
+
 });
+
+inputAdults.addEventListener('click', () => {
+  if (inputAdults.dataset.opened === 'false') {
+    inputAdults.insertAdjacentHTML('afterend', `
+    <div class="selectQuantityBox" data-type="adults">
+    <div class="minusOption">
+      <a href="#" onclick="changeQuantityInput('adults', false)">−</a>
+    </div>
+    <span class="selectedNumOption">${$cantAdults}</span>
+    <div class="addOption">
+      <a href="#" onclick="changeQuantityInput('adults', true)">+</a>
+    </div>
+  </div>
+    `);
+
+    inputAdults.dataset.opened = 'true';
+  }
+
+})
+
+function changeQuantityInput(tipo, sumar) {
+
+  if (tipo === 'adults') {
+
+    if (!sumar) {
+
+      if ($cantAdults === 1) {
+        return false;
+      }
+
+      $cantAdults --;
+
+    } else {
+
+      if ($cantAdults === $maxCantAdults) {
+        return false;
+      }
+
+      $cantAdults ++;
+
+    }
+
+    inputAdults.value = $cantAdults === 1 ? `1 Huésped` : `${$cantAdults} Huéspedes`;
+    document.querySelector('.number-selector-container .selectQuantityBox[data-type="adults"] .selectedNumOption').innerText = $cantAdults;
+
+  }
+
+}
