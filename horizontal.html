@@ -11,7 +11,7 @@
 
       <div class="input-container">
         <label for="">¿Cuándo llegas?</label>
-        <div class="calendario-container">
+        <div class="calendario-container" data-rol="cuando-llegas">
           <!-- Input de tipo date oculto -->
           <input type="text" placeholder="Selecciona" id="fechaInput" readonly />
           <span class="icon-for-input-calendar">
@@ -33,60 +33,13 @@
               </g>
               </svg>
           </span>
-          <!-- Calendario emergente -->
-          <div
-            class="calendario-popup"
-            data-opened="false"
-            id="calendarioPopup"
-          >
 
-            <div class="contenido-calendario">
-              <!-- Contenido del calendario generado dinámicamente con JavaScript -->
-              <div class="header-calendario">
-                <button class="changeMonth prevMonth" onclick="goToPrevMonth()">
-                  🠔
-                </button>
-                <div class="texto-header-calendario">
-                  <span class="month-selected"></span>
-                  <span class="year-selected"></span>
-                </div>
-                <button class="changeMonth nextMonth" onclick="goToNextMonth()">
-                  🠖
-                </button>
-              </div>
-              <div class="body-calendario">
-                <div class="weekdays">
-                  <span>D</span>
-                  <span>L</span>
-                  <span>M</span>
-                  <span>M</span>
-                  <span>J</span>
-                  <span>V</span>
-                  <span>S</span>
-                </div>
-                <div class="days-selector"></div>
-                <div class="footer-body-calendario">
-
-                  <hr class="divisor">
-
-                  <div class="carrusel-vertical-horas">
-                    <button class="carrControl upArr" onclick="chooseHour('up')" type="button">▲</button>
-                    <button class="carrControl doArr" onclick="chooseHour('down')" type="button">▼</button>
-                    <ul>
-                      
-                    </ul>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
       <div class="input-container">
         <label for="">¿Cuándo te vas?</label>
-        <div class="calendario-container">
+        <div class="calendario-container" data-rol="cuando-te-vas">
           <!-- Input de tipo date oculto -->
           <input type="text" placeholder="Selecciona" id="endFechaInput" readonly />
           <span class="icon-for-input-calendar">
@@ -109,53 +62,10 @@
               </svg>
           </span>
           <!-- Calendario emergente -->
-          <div
-            class="calendario-popup"
-            data-opened="false"
-            id="calendarioPopup"
-          >
 
-            <div class="contenido-calendario">
-              <!-- Contenido del calendario generado dinámicamente con JavaScript -->
-              <div class="header-calendario">
-                <button class="changeMonth prevMonth" onclick="goToPrevMonth()">
-                  🠔
-                </button>
-                <div class="texto-header-calendario">
-                  <span class="month-selected"></span>
-                  <span class="year-selected"></span>
-                </div>
-                <button class="changeMonth nextMonth" onclick="goToNextMonth()">
-                  🠖
-                </button>
-              </div>
-              <div class="body-calendario">
-                <div class="weekdays">
-                  <span>D</span>
-                  <span>L</span>
-                  <span>M</span>
-                  <span>M</span>
-                  <span>J</span>
-                  <span>V</span>
-                  <span>S</span>
-                </div>
-                <div class="days-selector"></div>
-                <div class="footer-body-calendario">
 
-                  <hr class="divisor">
 
-                  <div class="carrusel-vertical-horas">
-                    <button class="carrControl upArr" onclick="chooseHour('up')" type="button">▲</button>
-                    <button class="carrControl doArr" onclick="chooseHour('down')" type="button">▼</button>
-                    <ul>
-                      
-                    </ul>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
+          
         </div>
       </div>
 
