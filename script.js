@@ -108,10 +108,6 @@ document.getElementById("fechaInput").addEventListener("click", function () {
   abrirCalendario('start');
 });
 
-document.getElementById("endFechaInput").addEventListener("click", function () {
-  abrirCalendario('end');
-});
-
 window.onload = function () {
   configSelectors();
   timeInitialConfig(encima, medio, debajo);
