@@ -11,7 +11,7 @@ body {
 }
 
 /* Estilos personalizados para el contenedor del calendario */
-.calendario-container {
+.calendario-container { 
   position: relative;
   width: fit-content;
   display: inline-block;
@@ -19,7 +19,7 @@ body {
 
 /* Estilos para el calendario emergente */
 .calendario-popup {
-  display: none;
+  /* display: none; */
   position: absolute;
   z-index: 100;
   background-color: rgba(51, 28, 84, 96%);
