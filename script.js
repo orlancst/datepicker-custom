@@ -1,4 +1,8 @@
 let $yearSelected, $monthSelected, $endYearSelected, $endMonthSelected, previousYear, nextYear, previousMonth, nextMonth;
+
+let yearSelectedCont = {};
+let monthSelectedCont = {};
+
 let $cantAdults = 1;
 const $maxCantAdults = 3; //cantidad maxima de adultos en una sola habitacion
 let selectedDateArr = {};
@@ -14,6 +18,9 @@ const timeSelector = document.getElementById('selectTime');
 const inputFecha = document.getElementById('fechaInput');
 const carruselTimeContainer = document.querySelector('.carrusel-vertical-horas');
 const inputAdults = document.querySelector('.number-selector-container #adultsInput');
+
+const allInputCalendars = document.querySelectorAll('input[data-type="calendar"]');
+let arrAllInputCalendars = [];
 
 const weekday = {
   full: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
@@ -53,12 +60,11 @@ let debajo = 1;
 
 function abrirCalendario(tiempo) {
 
-  let yearMode = tiempo === 'start' ? $yearSelected : $endYearSelected;
-  let monthMode = tiempo === 'start' ? $monthSelected : $endMonthSelected;
+  // let yearMode = tiempo === 'start' ? $yearSelected : $endYearSelected;
+  // let monthMode = tiempo === 'start' ? $monthSelected : $endMonthSelected;
 
-  generarCalendario(yearMode, monthMode, tiempo);
+  generarCalendario(yearSelectedCont[tiempo], monthSelectedCont[tiempo], tiempo);
   validateIfDateIsSelected(selectedDateArr)
-  document.getElementById("calendarioPopup").setAttribute("data-opened", "true");
   document.getElementById("calendarioPopup").style.display = "block";
 }
 
@@ -67,7 +73,7 @@ function cerrarCalendario() {
   document.getElementById("calendarioPopup").style.display = "none";
 }
 
-function generarCalendario($year, $month, tiempo) {
+function generarCalendario($year, $month) {
   monthSelectedLabel.innerText = obtenerNombreMes($month);
   yearSelectedLabel.innerText = $year;
 
@@ -104,19 +110,41 @@ function generarCalendario($year, $month, tiempo) {
 
 }
 
-document.getElementById("fechaInput").addEventListener("click", function () {
-  abrirCalendario('start');
-});
+allInputCalendars.forEach( el => {
+  el.addEventListener("click", (e) => {
+    
+    if (el.getAttribute('data-opened') === 'true') {
+      el.setAttribute('data-opened', 'false')
+      cerrarCalendario();
+      
+      return false;
+    }
+    
+    el.setAttribute('data-opened', 'true')
+    console.log(el.getAttribute('data-calendar-name'));
+    abrirCalendario(el.getAttribute('data-calendar-name'));
+  });
+})
 
 window.onload = function () {
+  detectAllCalendars();
   configSelectors();
   timeInitialConfig(encima, medio, debajo);
-  $yearSelected = $yearSelected !== undefined ? $yearSelected : new Date().getFullYear();
-  $monthSelected = $monthSelected !== undefined ? $monthSelected : new Date().getMonth();
+  // $yearSelected = $yearSelected !== undefined ? $yearSelected : new Date().getFullYear();
+  // $monthSelected = $monthSelected !== undefined ? $monthSelected : new Date().getMonth();
 
-  $endYearSelected = $endYearSelected !== undefined ? $endYearSelected : new Date().getFullYear();
-  $endMonthSelected = $endMonthSelected !== undefined ? $endMonthSelected : new Date().getMonth();
+  // $endYearSelected = $endYearSelected !== undefined ? $endYearSelected : new Date().getFullYear();
+  // $endMonthSelected = $endMonthSelected !== undefined ? $endMonthSelected : new Date().getMonth();
 };
+
+function detectAllCalendars() {
+  allInputCalendars.forEach((el) => {
+    arrAllInputCalendars.push(el.getAttribute('data-calendar-name'))
+
+    yearSelectedCont[el.getAttribute('data-calendar-name')] = yearSelectedCont[el.getAttribute('data-calendar-name')] !== undefined ? yearSelectedCont[el.getAttribute('data-calendar-name')] : new Date().getFullYear();
+    monthSelectedCont[el.getAttribute('data-calendar-name')] = monthSelectedCont[el.getAttribute('data-calendar-name')] !== undefined ? monthSelectedCont[el.getAttribute('data-calendar-name')] : new Date().getMonth();
+  })
+}
 
 const obtenerDiasEnMes = (year, month) => {
 
@@ -136,18 +164,36 @@ daysNumber.forEach((el) => {
 })
 
 function goToPrevMonth() {
-  $monthSelected = $monthSelected === 0 ? 11 : $monthSelected - 1;
-  $yearSelected = $monthSelected === 11 ? previousYear : $yearSelected;
+  allInputCalendars.forEach((el) => {
+    if (el.getAttribute('data-opened') === 'true') {
+      monthSelectedCont[el.getAttribute('data-calendar-name')] = monthSelectedCont[el.getAttribute('data-calendar-name')] === 0 ? 11 : monthSelectedCont[el.getAttribute('data-calendar-name')] - 1;
+      yearSelectedCont[el.getAttribute('data-calendar-name')] = monthSelectedCont[el.getAttribute('data-calendar-name')] === 11 ? previousYear : yearSelectedCont[el.getAttribute('data-calendar-name')];
 
-  generarCalendario();
+      generarCalendario(yearSelectedCont[el.getAttribute('data-calendar-name')], monthSelectedCont[el.getAttribute('data-calendar-name')]);
+    }
+  })
+  //$monthSelected = $monthSelected === 0 ? 11 : $monthSelected - 1;
+  //$yearSelected = $monthSelected === 11 ? previousYear : $yearSelected;
+
+
   validateIfDateIsSelected(selectedDateArr)
 }
 
 function goToNextMonth() {
-  $monthSelected = $monthSelected === 11 ? 0 : $monthSelected + 1;
-  $yearSelected = $monthSelected === 0 ? nextYear : $yearSelected;
 
-  generarCalendario();
+  allInputCalendars.forEach((el) => {
+    if (el.getAttribute('data-opened') === 'true') {
+
+      monthSelectedCont[el.getAttribute('data-calendar-name')] = monthSelectedCont[el.getAttribute('data-calendar-name')] === 11 ? 0 : monthSelectedCont[el.getAttribute('data-calendar-name')] + 1;
+      yearSelectedCont[el.getAttribute('data-calendar-name')] = monthSelectedCont[el.getAttribute('data-calendar-name')] === 0 ? nextYear : yearSelectedCont[el.getAttribute('data-calendar-name')];
+
+      generarCalendario(yearSelectedCont[el.getAttribute('data-calendar-name')], monthSelectedCont[el.getAttribute('data-calendar-name')]);
+    }
+  })
+
+  // $monthSelected = $monthSelected === 11 ? 0 : $monthSelected + 1;
+  // $yearSelected = $monthSelected === 0 ? nextYear : $yearSelected;
+
   validateIfDateIsSelected(selectedDateArr)
 }
 

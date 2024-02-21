@@ -13,7 +13,7 @@
         <label for="">¿Cuándo llegas?</label>
         <div class="calendario-container">
           <!-- Input de tipo date oculto -->
-          <input type="text" placeholder="Selecciona" id="fechaInput" readonly />
+          <input type="text" placeholder="Selecciona" id="fechaInput" readonly data-type="calendar" data-calendar-name="cuandoVienes" data-opened="false"/>
           <span class="icon-for-input-calendar">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" width="16px" height="16px" viewBox="0 0 610.398 610.398" xml:space="preserve">
               <g>
@@ -34,25 +34,17 @@
               </svg>
           </span>
           <!-- Calendario emergente -->
-          <div
-            class="calendario-popup"
-            data-opened="false"
-            id="calendarioPopup"
-          >
+          <div class="calendario-popup" data-opened="false" id="calendarioPopup">
 
             <div class="contenido-calendario">
               <!-- Contenido del calendario generado dinámicamente con JavaScript -->
               <div class="header-calendario">
-                <button class="changeMonth prevMonth" onclick="goToPrevMonth()">
-                  🠔
-                </button>
+                <button class="changeMonth prevMonth" onclick="goToPrevMonth()">🠔</button>
                 <div class="texto-header-calendario">
                   <span class="month-selected"></span>
                   <span class="year-selected"></span>
                 </div>
-                <button class="changeMonth nextMonth" onclick="goToNextMonth()">
-                  🠖
-                </button>
+                <button class="changeMonth nextMonth" onclick="goToNextMonth()">🠖</button>
               </div>
               <div class="body-calendario">
                 <div class="weekdays">
