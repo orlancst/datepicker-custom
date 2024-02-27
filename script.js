@@ -2,12 +2,15 @@ let $yearSelected, $monthSelected, $endYearSelected, $endMonthSelected, previous
 
 let yearSelectedCont = {};
 let monthSelectedCont = {};
+let hourSelectedCont = {};
+
+let $CalendarName = '';//hidden for pass through query parameters.
 
 let $cantAdults = 1;
 const $maxCantAdults = 3; //cantidad maxima de adultos en una sola habitacion
 let selectedDateArr = {};
 let selectedHour = undefined;
-let userSelectedTime = undefined; //hidden for pass through query parameters.
+const calendarPopup = document.getElementById('calendarioPopup');
 const monthSelectedLabel = document.querySelector('.month-selected');
 const yearSelectedLabel = document.querySelector('.year-selected');
 const daysSelectorContainer = document.querySelector('.contenido-calendario .body-calendario .days-selector');
@@ -15,7 +18,6 @@ const daysNumber = document.querySelectorAll('.contenido-calendario .body-calend
 const nextMonthBtn = document.querySelector('.nextMonth');
 const prevMonthBtn = document.querySelector('.prevMonth');
 const timeSelector = document.getElementById('selectTime');
-const inputFecha = document.getElementById('fechaInput');
 const carruselTimeContainer = document.querySelector('.carrusel-vertical-horas');
 const inputAdults = document.querySelector('.number-selector-container #adultsInput');
 
@@ -63,14 +65,14 @@ function abrirCalendario(tiempo) {
   // let yearMode = tiempo === 'start' ? $yearSelected : $endYearSelected;
   // let monthMode = tiempo === 'start' ? $monthSelected : $endMonthSelected;
 
-  generarCalendario(yearSelectedCont[tiempo], monthSelectedCont[tiempo], tiempo);
+  generarCalendario(yearSelectedCont[tiempo], monthSelectedCont[tiempo]);
   validateIfDateIsSelected(selectedDateArr)
-  document.getElementById("calendarioPopup").style.display = "block";
+  calendarPopup.style.display = "block";
 }
 
 function cerrarCalendario() {
-  document.getElementById("calendarioPopup").setAttribute("data-opened", "false");
-  document.getElementById("calendarioPopup").style.display = "none";
+  calendarPopup.setAttribute("data-opened", "false");
+  calendarPopup.style.display = "none";
 }
 
 function generarCalendario($year, $month) {
@@ -86,6 +88,8 @@ function generarCalendario($year, $month) {
   const firstDayWeekMonth = new Date(`${$year}-${$month + 1}-01`).getDay();
   const firstDayWeekMonthLetter = weekday.short[firstDayWeekMonth];
 
+  const currentDate = new Date();
+
   let str = '';
   let daysBeforeNextMonth = firstDayWeekMonth === 0 ? 0 : obtenerDiasEnMes(($month === 0 ? previousYear : $year), previousMonth) - firstDayWeekMonth + 1;
   let daysLeft = firstDayWeekMonth;
@@ -94,6 +98,14 @@ function generarCalendario($year, $month) {
 
   for (let i = 0; i < 42; i++) {
     if (daysLeft > 0) {
+
+      //fix this!!!!
+      const diasAntes = new Date(`${previousMonth}/${daysBeforeNextMonth}/${(previousMonth === 11 ? previousYear : $year)}`).getTime();
+
+      let dayAvaliable = (diasAntes < currentDate.getTime()) ? 'ya paso' : 'no ha pasado';
+
+      console.log(diasAntes);
+
       str += `<span class="days-num days-before-month" data-fecha="${(previousMonth === 11 ? previousYear : $year)}-${previousMonth}-${daysBeforeNextMonth}"><a href="#" onclick="selectThisDay(${(previousMonth === 11 ? previousYear : $year)}, ${previousMonth}, ${daysBeforeNextMonth})">${daysBeforeNextMonth}</a></span>`;
       daysBeforeNextMonth++;
       daysLeft--;
@@ -119,9 +131,13 @@ allInputCalendars.forEach( el => {
       
       return false;
     }
+
+    const position = el.getBoundingClientRect();
     
+    calendarPopup.style.top = `${position.bottom}px`;
+    calendarPopup.style.left = `${position.left}px`;
     el.setAttribute('data-opened', 'true')
-    console.log(el.getAttribute('data-calendar-name'));
+    $CalendarName = el.getAttribute('data-calendar-name');
     abrirCalendario(el.getAttribute('data-calendar-name'));
   });
 })
@@ -143,6 +159,7 @@ function detectAllCalendars() {
 
     yearSelectedCont[el.getAttribute('data-calendar-name')] = yearSelectedCont[el.getAttribute('data-calendar-name')] !== undefined ? yearSelectedCont[el.getAttribute('data-calendar-name')] : new Date().getFullYear();
     monthSelectedCont[el.getAttribute('data-calendar-name')] = monthSelectedCont[el.getAttribute('data-calendar-name')] !== undefined ? monthSelectedCont[el.getAttribute('data-calendar-name')] : new Date().getMonth();
+    hourSelectedCont[el.getAttribute('data-calendar-name')] = undefined;
   })
 }
 
@@ -211,12 +228,12 @@ function selectThisDay(year, month, day) {
 
   validarFechaHoraFinal(selectedDateArr, selectedHour);
 
-  const selectSelected = document.querySelector('.select-selected');
-  if (!selectSelected.classList.contains('select-arrow-active')) {
-    selectSelected.nextSibling.classList.toggle("select-hide");
-    selectSelected.classList.toggle("select-arrow-active");
+  // const selectSelected = document.querySelector('.select-selected');
+  // if (!selectSelected.classList.contains('select-arrow-active')) {
+  //   selectSelected.nextSibling.classList.toggle("select-hide");
+  //   selectSelected.classList.toggle("select-arrow-active");
 
-  }
+  // }
 
 }
 
@@ -316,7 +333,6 @@ function toggleSelecedSelect(e, el) {
   el.nextSibling.classList.toggle("select-hide");
   el.classList.toggle("select-arrow-active");
 
-
 }
 
 function closeAllSelect(elmnt) {
@@ -350,8 +366,11 @@ function validarFechaHoraFinal(fecha, hora) {
     month = month < 9 ? '0' + (month + 1).toString() : (month + 1).toString();
     day = day < 10 ? '0' + day.toString() : day.toString();
 
-    userSelectedTime = `${year}-${month}-${day} ${hora}`
-    inputFecha.value = `${year}-${month}-${day} ${hora}`;
+    hourSelectedCont[$CalendarName] = `${year}-${month}-${day} ${hora}`;
+    document.querySelector(`input[data-calendar-name='${$CalendarName}']`).value = `${year}-${month}-${day} ${hora}`;
+
+    // userSelectedTime = `${year}-${month}-${day} ${hora}`
+    // inputFecha.value = `${year}-${month}-${day} ${hora}`;
 
   }
 
@@ -366,7 +385,8 @@ function timeInitialConfig(encima, medio, debajo) {
   str += `<li onclick="chooseHour('down')">${timeOptions[debajo].f12h}</li>`;
 
   carruselTimeContainer.querySelector('ul').innerHTML = str;
-  validarFechaHoraFinal(selectedDateArr, timeOptions[medio].f12h);
+  selectedHour = timeOptions[medio].f12h;
+  validarFechaHoraFinal(selectedDateArr, timeOptions[medio].f12h, null);
 }
 
 function chooseHour(direction) {
@@ -399,19 +419,18 @@ carruselTimeContainer.addEventListener('wheel', (el) => {
 })
 
 document.body.addEventListener("click", (e) => {
-  const calendar = document.getElementById("calendarioPopup");
-  const closeCalendar = calendar.getAttribute("data-opened");
+  const closeCalendar = calendarPopup.getAttribute("data-opened");
   const quantityBoxes = document.querySelectorAll('.selectQuantityBox');
 
-  if (!inputFecha.contains(e.target)) {
-    if (closeCalendar === 'true' && !calendar.contains(e.target)) {
-      cerrarCalendario()
-      closeAllSelect()
-    } else if (document.getElementsByClassName('select-arrow-active').length > 0) {
-      closeAllSelect()
-    }
+  // if (!inputFecha.contains(e.target)) {
+  //   if (closeCalendar === 'true' && !calendarPopup.contains(e.target)) {
+  //     cerrarCalendario()
+  //     closeAllSelect()
+  //   } else if (document.getElementsByClassName('select-arrow-active').length > 0) {
+  //     closeAllSelect()
+  //   }
   
-  }
+  // }
 
   if (quantityBoxes.length !== 0 && !inputAdults.contains(e.target)) {
     quantityBoxes.forEach(box => {
