@@ -66,7 +66,7 @@ function abrirCalendario(tiempo) {
   // let monthMode = tiempo === 'start' ? $monthSelected : $endMonthSelected;
 
   generarCalendario(yearSelectedCont[tiempo], monthSelectedCont[tiempo]);
-  validateIfDateIsSelected(selectedDateArr)
+  validateIfDateIsSelected(selectedDateArr, hourSelectedCont, tiempo)
   calendarPopup.style.display = "block";
 }
 
@@ -87,8 +87,16 @@ function generarCalendario($year, $month) {
   const daysForMonth = obtenerDiasEnMes($year, $month);
   const firstDayWeekMonth = new Date(`${$year}-${$month + 1}-01`).getDay();
   const firstDayWeekMonthLetter = weekday.short[firstDayWeekMonth];
-
+  
   const currentDate = new Date();
+  let prevDateMonth = new Date(`${$month + 1}/01/${$year}`);
+  //prevDateMonth.setMonth(prevDateMonth.getMonth() - 1);
+
+  if (prevDateMonth <= currentDate) {
+    prevMonthBtn.setAttribute('onclick', '');
+  } else {
+    prevMonthBtn.setAttribute('onclick', 'goToPrevMonth()');
+  }
 
   let str = '';
   let daysBeforeNextMonth = firstDayWeekMonth === 0 ? 0 : obtenerDiasEnMes(($month === 0 ? previousYear : $year), previousMonth) - firstDayWeekMonth + 1;
@@ -99,18 +107,20 @@ function generarCalendario($year, $month) {
   for (let i = 0; i < 42; i++) {
     if (daysLeft > 0) {
 
-      //fix this!!!!
-      const diasAntes = new Date(`${previousMonth}/${daysBeforeNextMonth}/${(previousMonth === 11 ? previousYear : $year)}`).getTime();
+      const diasAntes = new Date(`${(previousMonth + 1)}/${daysBeforeNextMonth}/${(previousMonth === 11 ? previousYear : $year)}`);
 
-      let dayAvaliable = (diasAntes < currentDate.getTime()) ? 'ya paso' : 'no ha pasado';
+      let dayIsAvaliable = ((diasAntes.getDate() === currentDate.getDate()) && (diasAntes.getMonth() === currentDate.getMonth()) && (diasAntes.getFullYear() === currentDate.getFullYear())) ? `onclick="selectThisDay(${(previousMonth === 11 ? previousYear : $year)}, ${previousMonth}, ${daysBeforeNextMonth})"` : (currentDate < diasAntes) ? `onclick="selectThisDay(${(previousMonth === 11 ? previousYear : $year)}, ${previousMonth}, ${daysBeforeNextMonth})"` : '';
 
-      console.log(diasAntes);
-
-      str += `<span class="days-num days-before-month" data-fecha="${(previousMonth === 11 ? previousYear : $year)}-${previousMonth}-${daysBeforeNextMonth}"><a href="#" onclick="selectThisDay(${(previousMonth === 11 ? previousYear : $year)}, ${previousMonth}, ${daysBeforeNextMonth})">${daysBeforeNextMonth}</a></span>`;
+      str += `<span class="days-num days-before-month" data-fecha="${(previousMonth === 11 ? previousYear : $year)}-${previousMonth}-${daysBeforeNextMonth}"><a href="#" ${dayIsAvaliable}>${daysBeforeNextMonth}</a></span>`;
       daysBeforeNextMonth++;
       daysLeft--;
     } else if (daysCounter <= daysForMonth) {
-      str += `<span class="days-num days-in-month" data-fecha="${$year}-${$month}-${daysCounter}"><a href="#" onclick="selectThisDay(${$year}, ${$month}, ${daysCounter})">${daysCounter}</a></span>`;
+
+      const diasAntes = new Date(`${($month + 1)}/${daysCounter}/${$year}`);
+
+      let dayIsAvaliable = ((diasAntes.getDate() === currentDate.getDate()) && (diasAntes.getMonth() === currentDate.getMonth()) && (diasAntes.getFullYear() === currentDate.getFullYear())) ? `onclick="selectThisDay(${$year}, ${$month}, ${daysCounter})"` : (currentDate < diasAntes) ? `onclick="selectThisDay(${$year}, ${$month}, ${daysCounter})"` : '';
+
+      str += `<span class="days-num days-in-month" data-fecha="${$year}-${$month}-${daysCounter}"><a href="#" ${dayIsAvaliable}>${daysCounter}</a></span>`;
       daysCounter++;
     } else {
       str += `<span class="days-num days-after-month" data-fecha="${(nextMonth === 0 ? nextYear : $year)}-${nextMonth}-${daysAfter}"><a href="#" onclick="selectThisDay(${(nextMonth === 0 ? nextYear : $year)}, ${nextMonth}, ${daysAfter})">${daysAfter}</a></span>`;
@@ -146,11 +156,6 @@ window.onload = function () {
   detectAllCalendars();
   configSelectors();
   timeInitialConfig(encima, medio, debajo);
-  // $yearSelected = $yearSelected !== undefined ? $yearSelected : new Date().getFullYear();
-  // $monthSelected = $monthSelected !== undefined ? $monthSelected : new Date().getMonth();
-
-  // $endYearSelected = $endYearSelected !== undefined ? $endYearSelected : new Date().getFullYear();
-  // $endMonthSelected = $endMonthSelected !== undefined ? $endMonthSelected : new Date().getMonth();
 };
 
 function detectAllCalendars() {
@@ -181,22 +186,28 @@ daysNumber.forEach((el) => {
 })
 
 function goToPrevMonth() {
+
+  let ti = '';
   allInputCalendars.forEach((el) => {
     if (el.getAttribute('data-opened') === 'true') {
       monthSelectedCont[el.getAttribute('data-calendar-name')] = monthSelectedCont[el.getAttribute('data-calendar-name')] === 0 ? 11 : monthSelectedCont[el.getAttribute('data-calendar-name')] - 1;
       yearSelectedCont[el.getAttribute('data-calendar-name')] = monthSelectedCont[el.getAttribute('data-calendar-name')] === 11 ? previousYear : yearSelectedCont[el.getAttribute('data-calendar-name')];
 
       generarCalendario(yearSelectedCont[el.getAttribute('data-calendar-name')], monthSelectedCont[el.getAttribute('data-calendar-name')]);
+
+      ti = el.getAttribute('data-calendar-name');
     }
   })
   //$monthSelected = $monthSelected === 0 ? 11 : $monthSelected - 1;
   //$yearSelected = $monthSelected === 11 ? previousYear : $yearSelected;
 
 
-  validateIfDateIsSelected(selectedDateArr)
+  validateIfDateIsSelected(selectedDateArr, hourSelectedCont, ti)
 }
 
 function goToNextMonth() {
+
+  let ti = '';
 
   allInputCalendars.forEach((el) => {
     if (el.getAttribute('data-opened') === 'true') {
@@ -205,13 +216,15 @@ function goToNextMonth() {
       yearSelectedCont[el.getAttribute('data-calendar-name')] = monthSelectedCont[el.getAttribute('data-calendar-name')] === 0 ? nextYear : yearSelectedCont[el.getAttribute('data-calendar-name')];
 
       generarCalendario(yearSelectedCont[el.getAttribute('data-calendar-name')], monthSelectedCont[el.getAttribute('data-calendar-name')]);
+
+      ti = el.getAttribute('data-calendar-name');
     }
   })
 
   // $monthSelected = $monthSelected === 11 ? 0 : $monthSelected + 1;
   // $yearSelected = $monthSelected === 0 ? nextYear : $yearSelected;
 
-  validateIfDateIsSelected(selectedDateArr)
+  validateIfDateIsSelected(selectedDateArr, hourSelectedCont, ti)
 }
 
 function selectThisDay(year, month, day) {
@@ -237,23 +250,42 @@ function selectThisDay(year, month, day) {
 
 }
 
-const validateIfDateIsSelected = (date) => {
+const validateIfDateIsSelected = (date, dateAr, tiempo) => {
 
-  if (Object.keys(date).length !== 0) {
+  if (dateAr[tiempo] !== undefined) {
+    
+      let fec = dateAr[tiempo].substring(0, 10)
+      const fecha = new Date(fec);
+      console.log(fecha);
 
-    const { year, month, day } = date;
+      const selectedDate = document.querySelectorAll('.contenido-calendario .body-calendario .days-selector .days-num');
 
-    const selectedDate = document.querySelectorAll('.contenido-calendario .body-calendario .days-selector .days-num');
+      selectedDate.forEach((el) => {
+        if (el.getAttribute('data-fecha') === `${fecha.getFullYear()}-${fecha.getMonth()}-${fecha.getDate() + 1}`) {
+          el.classList.add('selected-date');
+          return true;
+        }
+      })
+  
+      return false;
 
-    selectedDate.forEach((el) => {
-      if (el.getAttribute('data-fecha') === `${year}-${month}-${day}`) {
-        el.classList.add('selected-date');
-        return true;
-      }
-    })
-
-    return false;
   }
+
+  // if (Object.keys(date).length !== 0) {
+  //   console.log(date);
+  //   const { year, month, day } = date;
+
+  //   const selectedDate = document.querySelectorAll('.contenido-calendario .body-calendario .days-selector .days-num');
+
+  //   selectedDate.forEach((el) => {
+  //     if (el.getAttribute('data-fecha') === `${year}-${month}-${day}`) {
+  //       el.classList.add('selected-date');
+  //       return true;
+  //     }
+  //   })
+
+  //   return false;
+  // }
 
 }
 
@@ -290,7 +322,6 @@ function configSelectors() {
       c = document.createElement("DIV");
       c.innerHTML = selElmnt.options[j].innerHTML;
       c.addEventListener("click", function (e) {
-        const calendarOpened = document.querySelector(".calendario-popup").getAttribute('data-opened');
         /* When an item is clicked, update the original select box,
         and the selected item: */
         var y, i, k, s, h, sl, yl;

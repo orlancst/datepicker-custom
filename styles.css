@@ -13,7 +13,7 @@ body {
 /* Estilos personalizados para el contenedor del calendario */
 .calendario-container {
   position: relative;
-  width: fit-content;
+  width: 100%;
   display: inline-block;
 }
 
@@ -78,6 +78,7 @@ body {
 .calendario-popup .contenido-calendario .days-selector span a {
   text-decoration: none;
   font-weight: normal;
+  user-select: none;
 }
 
 .calendario-popup .contenido-calendario .days-selector .days-num {
@@ -138,7 +139,7 @@ body {
 
 .number-selector-container {
   position: relative;
-  width: fit-content;
+  width: 100%;
 }
 
 .custom-select {
@@ -191,7 +192,7 @@ body {
 }
 
 .input-container input{
-  width: 111%;
+  width: -webkit-fill-available;
   background-color: transparent;
   color: white;
   padding: 8px 16px;
@@ -206,7 +207,7 @@ body {
 
 .calendario-container .icon-for-input-calendar {
   position: absolute;
-  right: -45px;
+  right: 10px;
   top: 5px;
   fill: rgb(255, 255, 255);
   pointer-events: none;
@@ -215,15 +216,15 @@ body {
 /* Style items (options): */
 .select-items {
   position: absolute;
-  background-color: #696969;
-  background-color: rgba(105, 105, 105, 0.9);
-  backdrop-filter: blur(3px);;
+  background-color: rgba(51, 28, 84, 96%);
+  backdrop-filter: blur(3px);
   top: 100%;
   left: 0;
   right: 0;
   z-index: 99;
+  border: 3px solid white;
   border-radius: 10px;
-
+  margin-top: 3px;
 }
 
 .custom-selectTime .select-items{
@@ -274,14 +275,13 @@ body {
 }
 
 .select-items div:hover, .same-as-selected {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .formulario-planes-byhours {
   display: flex;
   background-color: #4f0b7b;
   padding: 30px;
-  border-radius: 6px;
 }
 
 .formulario-planes-byhours.horizontal {
@@ -533,9 +533,20 @@ body {
 
 @media only screen and (max-width: 768px){
   .calendario-popup {
-    left: -18%;
-    width: 140%;
+    width: 80%;
 
+  }
+
+  .formulario-planes-byhours.horizontal .input-container .calendario-container, .formulario-planes-byhours.horizontal .input-container .number-selector-container {
+    width: 100%;
+  }
+
+  .formulario-planes-byhours.horizontal .input-container .calendario-container input, .formulario-planes-byhours.horizontal .input-container .number-selector-container input{
+    width: -webkit-fill-available;
+  }
+
+  .formulario-planes-byhours.horizontal .input-container .calendario-container .icon-for-input-calendar {
+    right: 10px;
   }
 
   .formulario-planes-byhours.horizontal {
@@ -544,6 +555,24 @@ body {
 
   .formulario-planes-byhours.horizontal .input-container {
     width: 100%;
+  }
+
+  .selectQuantityBox {
+    width: 150px;
+    height: 50px;
+  }
+
+  .selectQuantityBox .minusOption, .selectQuantityBox .addOption {
+    width: 40px;
+    height: 40px;
+  }
+
+  .selectQuantityBox .selectedNumOption {
+    font-size: 24px;
+  }
+
+  .select-items div, .select-selected {
+    padding: 12px 16px;
   }
 }
 
