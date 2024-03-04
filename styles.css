@@ -49,8 +49,17 @@ body {
   background-color: transparent;
   border: 0;
   color: white;
+  fill: white;
   cursor: pointer;
   font-size: 24px;
+}
+
+.changeMonth.prevMonth {
+  transform: rotate(90deg);
+}
+
+.changeMonth.nextMonth {
+  transform: rotate(270deg);
 }
 
 .calendario-popup .contenido-calendario .header-calendario .texto-header-calendario {
@@ -94,8 +103,12 @@ body {
 }
 
 .calendario-popup .contenido-calendario .days-selector .days-before-month a, .calendario-popup .contenido-calendario .days-selector .days-after-month a {
-  color: #afafaf;
+  color: rgba(255, 255, 255, 0.25);
+  
+}
 
+.calendario-popup .contenido-calendario .days-selector .days-num.cant-be-selected a{
+  color: rgba(255, 255, 255, 0.25);
 }
 
 .calendario-popup .contenido-calendario .body-calendario .weekdays span {
@@ -221,7 +234,7 @@ body {
   top: 100%;
   left: 0;
   right: 0;
-  z-index: 99;
+  z-index: 999;
   border: 3px solid white;
   border-radius: 10px;
   margin-top: 3px;
@@ -456,6 +469,7 @@ body {
   cursor: pointer;
   overflow: auto;
   color: white;
+  fill: white;
 }
 
 .carrusel-vertical-horas .upArr {
@@ -464,6 +478,7 @@ body {
 
 .carrusel-vertical-horas .doArr {
   bottom: -6px;
+  transform: rotate(180deg);
 }
 
 .carrusel-vertical-horas ul {
@@ -500,11 +515,13 @@ body {
   align-items: center;
 }
 
-.selectQuantityBox a {
+.selectQuantityBox button {
   text-decoration: none;
   color: white;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
+  background: none;
+  border: none;
 }
 
 .selectQuantityBox .minusOption, .selectQuantityBox .addOption {
@@ -569,6 +586,10 @@ body {
 
   .selectQuantityBox .selectedNumOption {
     font-size: 24px;
+  }
+
+  .selectQuantityBox button {
+    font-size: 22px;
   }
 
   .select-items div, .select-selected {
