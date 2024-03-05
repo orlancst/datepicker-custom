@@ -6,8 +6,9 @@ let hourSelectedCont = {};
 
 let $CalendarName = '';//hidden for pass through query parameters.
 
-let $cantAdults = 1;
-const $maxCantAdults = 3; //cantidad maxima de adultos en una sola habitacion
+const $cantAdults = {sel: 1, max: 3};
+const $cantRooms = {sel: 1, max: 5};
+
 let selectedDateArr = {};
 let selectedHour = undefined;
 const calendarPopup = document.getElementById('calendarioPopup');
@@ -19,7 +20,7 @@ const nextMonthBtn = document.querySelector('.nextMonth');
 const prevMonthBtn = document.querySelector('.prevMonth');
 const timeSelector = document.getElementById('selectTime');
 const carruselTimeContainer = document.querySelector('.carrusel-vertical-horas');
-const inputAdults = document.querySelector('.number-selector-container #adultsInput');
+const inputNumSelectors = document.querySelectorAll('.number-selector-container input');
 
 const allInputCalendars = document.querySelectorAll('input[data-type="calendar"]');
 let arrAllInputCalendars = [];
@@ -457,40 +458,52 @@ document.body.addEventListener("click", (e) => {
   
   // }
 
-  if (quantityBoxes.length !== 0 && !inputAdults.contains(e.target)) {
-    quantityBoxes.forEach(box => {
-      if (!box.contains(e.target)) {
-        let tipo = box.getAttribute('data-type');
-
-        if (tipo === 'adults') {
-          inputAdults.dataset.opened = 'false';
+  inputNumSelectors.forEach(selector => {
+    if (quantityBoxes.length !== 0 && !selector.contains(e.target)) {
+      quantityBoxes.forEach(box => {
+        if (!box.contains(e.target)) {
+          let tipo = box.getAttribute('data-type');
+  
+          if (tipo === selector.dataset.typename) {
+            selector.dataset.opened = 'false';
+            box.remove();
+          }
+  
         }
+      })
+    }
 
-        box.remove();
-      }
-    })
-  }
+  })
+
 
 });
 
-inputAdults.addEventListener('click', () => {
-  if (inputAdults.dataset.opened === 'false') {
-    inputAdults.insertAdjacentHTML('afterend', `
-    <div class="selectQuantityBox" data-type="adults">
-    <div class="minusOption">
-      <button type="button" onclick="changeQuantityInput('adults', false)">−</button>
-    </div>
-    <span class="selectedNumOption">${$cantAdults}</span>
-    <div class="addOption">
-      <button type="button" onclick="changeQuantityInput('adults', true)">+</button>
-    </div>
-  </div>
-    `);
+inputNumSelectors.forEach(el => {
+  el.addEventListener('click', () => {
+    if (el.dataset.opened === 'false') {
 
-    inputAdults.dataset.opened = 'true';
-  }
+      const itemValue = el.value.split(' ')[0];
+
+      el.insertAdjacentHTML('afterend', `
+      <div class="selectQuantityBox" data-type="${el.dataset.typename}">
+      <div class="minusOption">
+        <button type="button" onclick="changeQuantityInput('${el.dataset.typename}', false)">−</button>
+      </div>
+      <span class="selectedNumOption">${itemValue}</span>
+      <div class="addOption">
+        <button type="button" onclick="changeQuantityInput('${el.dataset.typename}', true)">+</button>
+      </div>
+    </div>
+      `);
+  
+      el.dataset.opened = 'true';
+    }
+  
+  })
 
 })
+
+
 
 function changeQuantityInput(tipo, sumar) {
 
@@ -498,25 +511,46 @@ function changeQuantityInput(tipo, sumar) {
 
     if (!sumar) {
 
-      if ($cantAdults === 1) {
+      if ($cantAdults.sel === 1) {
         return false;
       }
 
-      $cantAdults --;
+      $cantAdults.sel --;
 
     } else {
 
-      if ($cantAdults === $maxCantAdults) {
+      if ($cantAdults.sel === $cantAdults.max) {
         return false;
       }
 
-      $cantAdults ++;
+      $cantAdults.sel ++;
 
     }
 
-    inputAdults.value = $cantAdults === 1 ? `1 Huésped` : `${$cantAdults} Huéspedes`;
-    document.querySelector('.number-selector-container .selectQuantityBox[data-type="adults"] .selectedNumOption').innerText = $cantAdults;
+    document.getElementById("adultsInput").value = $cantAdults.sel === 1 ? `1 huésped` : `${$cantAdults.sel} huéspedes`;
+    document.querySelector('.number-selector-container .selectQuantityBox[data-type="adults"] .selectedNumOption').innerText = $cantAdults.sel;
 
+  } else if (tipo === 'rooms') {
+    if (!sumar) {
+
+      if ($cantRooms.sel === 1) {
+        return false;
+      }
+
+      $cantRooms.sel --;
+
+    } else {
+
+      if ($cantRooms.sel === $cantRooms.max) {
+        return false;
+      }
+
+      $cantRooms.sel ++;
+
+    }
+
+    document.getElementById("roomsInput").value = $cantRooms.sel === 1 ? `1 habitación` : `${$cantRooms.sel} habitaciones`;
+    document.querySelector('.number-selector-container .selectQuantityBox[data-type="rooms"] .selectedNumOption').innerText = $cantRooms.sel;
   }
 
 }
