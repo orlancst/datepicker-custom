@@ -3,11 +3,13 @@ let previousYear, nextYear, previousMonth, nextMonth;
 let yearSelectedCont = {};
 let monthSelectedCont = {};
 let hourSelectedCont = {};
+let $inputSelectorsCont = {};
 
 let $CalendarName = '';//hidden for pass through query parameters.
 
 const $cantAdults = {sel: 1, max: 3};
 const $cantRooms = {sel: 1, max: 5};
+const $maxAdultsCiudad = {barranquilla: 2, bogota: 3};
 
 let selectedDateArr = {};
 let selectedHour = undefined;
@@ -122,9 +124,6 @@ function generarCalendario($year, $month) {
         str += `<span class="days-num days-in-month cant-be-selected" data-fecha="${$year}-${$month}-${daysCounter}"><a href="#">${daysCounter}</a></span>`;
       }
 
-      // let dayIsAvaliable = ((diasAntes.getDate() === currentDate.getDate()) && (diasAntes.getMonth() === currentDate.getMonth()) && (diasAntes.getFullYear() === currentDate.getFullYear())) ? `onclick="selectThisDay(event, ${$year}, ${$month}, ${daysCounter})"` : (currentDate < diasAntes) ? `onclick="selectThisDay(event, ${$year}, ${$month}, ${daysCounter})"` : '';
-
-      // str += `<span class="days-num days-in-month" data-fecha="${$year}-${$month}-${daysCounter}"><a href="#" ${dayIsAvaliable}>${daysCounter}</a></span>`;
       daysCounter++;
     } else {
       str += `<span class="days-num days-after-month" data-fecha="${(nextMonth === 0 ? nextYear : $year)}-${nextMonth}-${daysAfter}"><a href="#" onclick="selectThisDay(event, ${(nextMonth === 0 ? nextYear : $year)}, ${nextMonth}, ${daysAfter})">${daysAfter}</a></span>`;
@@ -266,22 +265,6 @@ const validateIfDateIsSelected = (date, dateAr, tiempo) => {
 
   }
 
-  // if (Object.keys(date).length !== 0) {
-  //   console.log(date);
-  //   const { year, month, day } = date;
-
-  //   const selectedDate = document.querySelectorAll('.contenido-calendario .body-calendario .days-selector .days-num');
-
-  //   selectedDate.forEach((el) => {
-  //     if (el.getAttribute('data-fecha') === `${year}-${month}-${day}`) {
-  //       el.classList.add('selected-date');
-  //       return true;
-  //     }
-  //   })
-
-  //   return false;
-  // }
-
 }
 
 function uncheckAllDate() {
@@ -327,6 +310,8 @@ function configSelectors() {
           if (s.options[i].innerHTML == this.innerHTML) {
             s.selectedIndex = i;
             h.innerHTML = this.innerHTML;
+
+            $inputSelectorsCont[s.getAttribute("name")] = this.innerHTML;
 
             y = this.parentNode.getElementsByClassName("same-as-selected");
             yl = y.length;
@@ -503,8 +488,6 @@ inputNumSelectors.forEach(el => {
 
 })
 
-
-
 function changeQuantityInput(tipo, sumar) {
 
   if (tipo === 'adults') {
@@ -519,7 +502,7 @@ function changeQuantityInput(tipo, sumar) {
 
     } else {
 
-      if ($cantAdults.sel === $cantAdults.max) {
+      if ($cantAdults.sel >= $cantAdults.max) {
         return false;
       }
 
@@ -549,8 +532,80 @@ function changeQuantityInput(tipo, sumar) {
 
     }
 
+    if ($cantAdults.sel > ($cantRooms.sel * $maxAdultsCiudad.bogota)) {
+      $cantAdults.sel = $cantRooms.sel * $maxAdultsCiudad.bogota;
+      document.getElementById("adultsInput").value = $cantAdults.sel === 1 ? `1 huésped` : `${$cantAdults.sel} huéspedes`;
+    }
+
+    $cantAdults.max = $cantRooms.sel * $maxAdultsCiudad.bogota;
+
     document.getElementById("roomsInput").value = $cantRooms.sel === 1 ? `1 habitación` : `${$cantRooms.sel} habitaciones`;
     document.querySelector('.number-selector-container .selectQuantityBox[data-type="rooms"] .selectedNumOption').innerText = $cantRooms.sel;
   }
 
+}
+
+function fixDate(str) {
+
+  str = str.replaceAll(' ', '-')
+  str = str.replaceAll(':', '-')
+  let arr = str.split('-');
+
+  arr[0] = parseInt(arr[0])
+  arr[1] = parseInt(arr[1]) - 1
+  arr[2] = parseInt(arr[2])
+
+  if (arr[5] === 'a.m.') {
+    if (parseInt(arr[3]) === 12) {
+      arr[3] = 0;
+    } else {
+      arr[3] = parseInt(arr[3])
+    }
+  } else {
+    if (parseInt(arr[3]) !== 12) {
+      arr[3] = parseInt(arr[3]) + 12;
+    } else {
+      arr[3] = parseInt(arr[3])
+    }
+  }
+
+  return new Date(arr[0], arr[1], arr[2], arr[3]);
+}
+
+function findBooking() {
+// Send parameters to backend server:
+
+if (hourSelectedCont.cuandoVienes === undefined) {
+  console.error('No se ha seleccionado una fecha y hora de entrada');
+  return false;
+}
+
+let CuandoVienes = fixDate(hourSelectedCont.cuandoVienes);
+
+if (hourSelectedCont.cuandoTeVas === undefined) {
+  console.error('No se ha seleccionado una fecha y hora de salida');
+  return false;
+}
+
+let CuandoTeVas = fixDate(hourSelectedCont.cuandoTeVas);
+
+if (CuandoTeVas <= CuandoVienes) {
+  console.error('La hora de salida debe ser mayor a la hora de entrada');
+  return false;
+}
+
+if ($inputSelectorsCont.selectedHotel === undefined) {
+  console.error('No se ha seleccionado el hotel.');
+  return false;
+}
+
+const data = {
+  horaEntrada: hourSelectedCont.cuandoVienes,
+  horaSalida: hourSelectedCont.cuandoTeVas,
+  hotel: $inputSelectorsCont.selectedHotel,
+  habitaciones: $cantRooms.sel,
+  adultos: $cantAdults.sel,
+}
+
+console.log(data);
 }

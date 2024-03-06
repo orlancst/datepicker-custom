@@ -141,7 +141,7 @@
       <div class="input-container">
         <label for="">Hotel</label>
         <div class="custom-select">
-          <select name="" id="hotel-select">
+          <select name="selectedHotel" id="hotel-select">
             <option value="-">-</option>
             <option value="">Todos</option>
             <option value="ByHours Astor">ByHours Astor</option>
@@ -149,21 +149,6 @@
             <option value="ByHours Circunvalar">ByHours Circunvalar</option>
             <option value="ByHours Las Américas">ByHours Las Américas</option>
           </select>
-        </div>
-      </div>
-
-      <div class="input-container">
-        <label for="">Adultos</label>
-        <div class="number-selector-container">
-          <input
-            type="text"
-            class="inputNum"
-            value="1 huésped"
-            id="adultsInput"
-            data-opened="false"
-            data-typename="adults"
-            readonly
-          />
         </div>
       </div>
 
@@ -182,7 +167,23 @@
         </div>
       </div>
 
-      <button type="button" class="boton-reservar">
+      
+      <div class="input-container">
+        <label for="">Adultos</label>
+        <div class="number-selector-container">
+          <input
+            type="text"
+            class="inputNum"
+            value="1 huésped"
+            id="adultsInput"
+            data-opened="false"
+            data-typename="adults"
+            readonly
+          />
+        </div>
+      </div>
+
+      <button type="button" class="boton-reservar" onclick="findBooking()">
         <span class="btn-cont-texto">
           <span class="btn-text-style">BUSCAR</span>
         </span>
