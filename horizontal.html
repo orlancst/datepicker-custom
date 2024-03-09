@@ -152,7 +152,7 @@
         </div>
       </div>
 
-      <div class="input-container">
+      <!-- <div class="input-container">
         <label for="">Habitaciones</label>
         <div class="number-selector-container">
           <input
@@ -162,6 +162,21 @@
             id="roomsInput"
             data-opened="false"
             data-typename="rooms"
+            readonly
+          />
+        </div>
+      </div> -->
+
+      <div class="input-container">
+        <label for="">Habitaciones</label>
+        <div class="rooms-guests-picker">
+          <input
+            type="text"
+            class="inputNum"
+            value="1 adulto - 1 hab"
+            data-opened="false"
+            data-typename="rooms_adults"
+            onclick="openRoomsPicker()"
             readonly
           />
         </div>

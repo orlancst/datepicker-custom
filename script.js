@@ -13,6 +13,10 @@ const $cantAdults = {sel: 1, max: 3};
 const $cantRooms = {sel: 1, max: 5};
 const $maxAdultsCiudad = {barranquilla: 2, bogota: 3};
 
+let arrRoomsSelected = [
+  {rooms: 1, guests: 1}
+];
+
 let selectedDateArr = {};
 let selectedHour = undefined;
 const calendarPopup = document.getElementById('calendarioPopup');
@@ -25,6 +29,7 @@ const prevMonthBtn = document.querySelector('.prevMonth');
 const timeSelector = document.getElementById('selectTime');
 const carruselTimeContainer = document.querySelector('.carrusel-vertical-horas');
 const inputNumSelectors = document.querySelectorAll('.number-selector-container input');
+const guestPicker = document.querySelector('.rooms-guests-picker input');
 
 const allInputCalendars = document.querySelectorAll('input[data-type="calendar"]');
 let arrAllInputCalendars = [];
@@ -489,6 +494,38 @@ document.body.addEventListener("click", (e) => {
 
 
 });
+
+function openRoomsPicker() {
+  if (guestPicker.dataset.opened === 'false') {
+
+    generateRoomsPicker()
+    guestPicker.dataset.opened = 'true';
+  }
+}
+
+function generateRoomsPicker() {
+  let roomNumber = 1;
+  let c = `<div class="selectRommsGuestsBox">`
+    arrRoomsSelected.forEach(arr => {
+      c += `<div class="roomContainer">
+        <label>Habitación ${roomNumber}<label>
+        <div class="numberPicker">
+          <div class="minusOption">
+            <button type="button" onclick="changeQuantityInput(false)">−</button>
+          </div>
+          <span class="selectedNumOption">${arr.guests}</span>
+          <div class="addOption">
+            <button type="button" onclick="changeQuantityInput(true)">+</button>
+          </div>
+        </div>
+      </div>`;
+
+      roomNumber++;
+    })
+  c += `</div>`
+
+  guestPicker.insertAdjacentHTML('afterend', c);
+}
 
 inputNumSelectors.forEach(el => {
   el.addEventListener('click', () => {
