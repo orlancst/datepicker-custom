@@ -135,26 +135,27 @@ function generarCalendario($year, $month) {
 
 }
 
-allInputCalendars.forEach( el => {
-  el.addEventListener("click", (e) => {
+// allInputCalendars.forEach( el => {
+//   el.addEventListener("click", (e) => {
     
-    if (el.getAttribute('data-opened') === 'true') {
-      el.setAttribute('data-opened', 'false')
-      cerrarCalendario();
+//     if (el.getAttribute('data-opened') === 'true') {
+//       el.setAttribute('data-opened', 'false')
+//       cerrarCalendario();
       
-      return false;
-    }
+//       return false;
+//     }
 
-    const position = el.getBoundingClientRect();
+//     const position = el.getBoundingClientRect();
 
-    calendarPopup.style.top = `${(position.bottom + 5)}px`;
+//     calendarPopup.style.top = `${(position.bottom + 5)}px`;
     
-    calendarPopup.style.left = `${(position.left - 35)}px`;
-    el.setAttribute('data-opened', 'true')
-    $CalendarName = el.getAttribute('data-calendar-name');
-    abrirCalendario(el.getAttribute('data-calendar-name'));
-  });
-})
+//     calendarPopup.style.left = `${(position.left - 35)}px`;
+//     el.setAttribute('data-opened', 'true')
+//     calendarPopup.setAttribute('data-opened', 'true')
+//     $CalendarName = el.getAttribute('data-calendar-name');
+//     abrirCalendario(el.getAttribute('data-calendar-name'));
+//   });
+// })
 
 window.onload = function () {
   detectAllCalendars();
@@ -430,18 +431,42 @@ carruselTimeContainer.addEventListener('wheel', (el) => {
 })
 
 document.body.addEventListener("click", (e) => {
-  const closeCalendar = calendarPopup.getAttribute("data-opened");
+  const calendarIsOpened = calendarPopup.getAttribute("data-opened");
   const quantityBoxes = document.querySelectorAll('.selectQuantityBox');
 
-  // if (!inputFecha.contains(e.target)) {
-  //   if (closeCalendar === 'true' && !calendarPopup.contains(e.target)) {
-  //     cerrarCalendario()
-  //     closeAllSelect()
-  //   } else if (document.getElementsByClassName('select-arrow-active').length > 0) {
-  //     closeAllSelect()
-  //   }
+  allInputCalendars.forEach(elmn => {
+
+    if (elmn.contains(e.target)) {
+      
+      if (elmn.getAttribute('data-opened') === 'true') {
+        elmn.setAttribute('data-opened', 'false')
+        cerrarCalendario();
+        
+        return false;
+      }
   
-  // }
+      const position = elmn.getBoundingClientRect();
+  
+      calendarPopup.style.top = `${(position.bottom + 5)}px`;
+      
+      calendarPopup.style.left = `${(position.left - 35)}px`;
+      elmn.setAttribute('data-opened', 'true')
+      calendarPopup.setAttribute('data-opened', 'true')
+      $CalendarName = elmn.getAttribute('data-calendar-name');
+      abrirCalendario(elmn.getAttribute('data-calendar-name'));
+    } else if (elmn.getAttribute('data-opened') === 'true' && calendarIsOpened === 'true' && !calendarPopup.contains(e.target)) {
+      elmn.setAttribute('data-opened', 'false')
+      cerrarCalendario();
+      
+      return false;
+      
+    }
+
+  })
+
+  if (document.getElementsByClassName('select-arrow-active').length > 0) {
+      closeAllSelect()
+  }
 
   inputNumSelectors.forEach(selector => {
     if (quantityBoxes.length !== 0 && !selector.contains(e.target)) {
@@ -544,7 +569,7 @@ function changeQuantityInput(tipo, sumar) {
   }
 
 }
-
+ 
 function fixDate(str) {
 
   str = str.replaceAll(' ', '-')
