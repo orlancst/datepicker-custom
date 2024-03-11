@@ -9,12 +9,12 @@ let $inputSelectorsCont = {};
 
 let $CalendarName = '';//hidden for pass through query parameters.
 
-const $cantAdults = {sel: 1, max: 3};
-const $cantRooms = {sel: 1, max: 5};
+let $cantAdults = 1;
+let $cantRooms = 1;
 const $maxAdultsCiudad = {barranquilla: 2, bogota: 3};
 
 let arrRoomsSelected = [
-  {rooms: 1, guests: 1}
+  {guests: 1}
 ];
 
 let selectedDateArr = {};
@@ -475,139 +475,120 @@ document.body.addEventListener("click", (e) => {
       closeAllSelect()
   }
 
-  inputNumSelectors.forEach(selector => {
-    if (quantityBoxes.length !== 0 && !selector.contains(e.target)) {
-      quantityBoxes.forEach(box => {
-        if (!box.contains(e.target)) {
-          let tipo = box.getAttribute('data-type');
-  
-          if (tipo === selector.dataset.typename) {
-            selector.dataset.opened = 'false';
-            box.remove();
-          }
-  
-        }
-      })
-    }
-
-  })
-
 
 });
 
 function openRoomsPicker() {
   if (guestPicker.dataset.opened === 'false') {
 
+    let c = `<div class="selectRommsGuestsBox">
+    <div class="header-mobile">
+    <button type="button" class="close-icon" onclick="endRoomGuests()">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 490 490" xml:space="preserve"> <polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490   489.292,457.678 277.331,245.004 489.292,32.337 "/> </svg>
+    </button>
+    <span>Huéspedes</span>
+    </div>
+    <div class="contenedor">
+    <div class="rommList">
+    </div>
+    
+    <button type="button" class="addRoomBtn" onclick="newRoom()">Agregar otra habitación</button></div>
+  <button type="button" class="boton-custom btn-exitRoomGuests" onclick="endRoomGuests()">
+  <span class="btn-cont-texto">
+    <span class="btn-text-style">OK</span>
+  </span>
+  <span class="btn-cont-fondo">
+    <span class="fondo-idle"></span>
+    <span class="fondo-hover"></span>
+  </span>
+</button></div>`;
+
+    guestPicker.insertAdjacentHTML('afterend', c);
+
     generateRoomsPicker()
     guestPicker.dataset.opened = 'true';
+  } else {
+    endRoomGuests()
   }
+}
+
+function endRoomGuests() {
+  document.querySelector('.selectRommsGuestsBox').remove();
+  guestPicker.dataset.opened = 'false';
 }
 
 function generateRoomsPicker() {
   let roomNumber = 1;
-  let c = `<div class="selectRommsGuestsBox">`
-    arrRoomsSelected.forEach(arr => {
+  let allGuests = 0;
+  let c = ``
+    arrRoomsSelected.forEach((arr, index) => {
+
+      let deleteCont = arrRoomsSelected.length > 1 ? `<button type="button" class="deleteRoomBtn" onclick="deleteRoom(${roomNumber - 1})">Eliminar habitación</button>` : '';
+
       c += `<div class="roomContainer">
-        <label>Habitación ${roomNumber}<label>
+        <label class="roomLabel">Habitación ${roomNumber}</label>
+        <div class="adultSelector">
+        <span class="adultsText">Adultos</span>
         <div class="numberPicker">
           <div class="minusOption">
-            <button type="button" onclick="changeQuantityInput(false)">−</button>
+            <button type="button" onclick="addDelRooms(${roomNumber - 1}, false)">−</button>
           </div>
           <span class="selectedNumOption">${arr.guests}</span>
           <div class="addOption">
-            <button type="button" onclick="changeQuantityInput(true)">+</button>
+            <button type="button" onclick="addDelRooms(${roomNumber - 1}, true)">+</button>
+          </div>
           </div>
         </div>
+        ${deleteCont}
       </div>`;
 
-      roomNumber++;
-    })
-  c += `</div>`
 
-  guestPicker.insertAdjacentHTML('afterend', c);
+      if (index !== arrRoomsSelected.length - 1) {
+        roomNumber++;
+      }
+      allGuests += arr.guests;
+
+    })
+
+    document.querySelector(".inputNum[data-typename='rooms_adults']").value = `${allGuests} ${allGuests === 1 ? 'adulto' : 'adultos'} - ${roomNumber} ${roomNumber === 1 ? 'habitación' : 'habitaciones'}`;
+
+    $cantAdults = allGuests;
+    $cantRooms = roomNumber;
+
+    document.querySelector('.selectRommsGuestsBox .contenedor .rommList').innerHTML = c;
 }
 
-inputNumSelectors.forEach(el => {
-  el.addEventListener('click', () => {
-    if (el.dataset.opened === 'false') {
+function newRoom() {
+  arrRoomsSelected.push({guests: 1});
+  generateRoomsPicker()
+}
 
-      const itemValue = el.value.split(' ')[0];
+function deleteRoom(roomNumber) {
+  arrRoomsSelected.splice(roomNumber, 1);
+  generateRoomsPicker()
+}
 
-      el.insertAdjacentHTML('afterend', `
-      <div class="selectQuantityBox" data-type="${el.dataset.typename}">
-      <div class="minusOption">
-        <button type="button" onclick="changeQuantityInput('${el.dataset.typename}', false)">−</button>
-      </div>
-      <span class="selectedNumOption">${itemValue}</span>
-      <div class="addOption">
-        <button type="button" onclick="changeQuantityInput('${el.dataset.typename}', true)">+</button>
-      </div>
-    </div>
-      `);
-  
-      el.dataset.opened = 'true';
-    }
-  
-  })
+function addDelRooms(room, sumar) {
 
-})
-
-function changeQuantityInput(tipo, sumar) {
-
-  if (tipo === 'adults') {
-
-    if (!sumar) {
-
-      if ($cantAdults.sel === 1) {
-        return false;
-      }
-
-      $cantAdults.sel --;
-
-    } else {
-
-      if ($cantAdults.sel >= $cantAdults.max) {
-        return false;
-      }
-
-      $cantAdults.sel ++;
-
+  if (!sumar) {
+    if (arrRoomsSelected[room].guests === 1) {
+      return false;
     }
 
-    document.getElementById("adultsInput").value = $cantAdults.sel === 1 ? `1 huésped` : `${$cantAdults.sel} huéspedes`;
-    document.querySelector('.number-selector-container .selectQuantityBox[data-type="adults"] .selectedNumOption').innerText = $cantAdults.sel;
-
-  } else if (tipo === 'rooms') {
-    if (!sumar) {
-
-      if ($cantRooms.sel === 1) {
-        return false;
-      }
-
-      $cantRooms.sel --;
-
-    } else {
-
-      if ($cantRooms.sel === $cantRooms.max) {
-        return false;
-      }
-
-      $cantRooms.sel ++;
-
+    arrRoomsSelected[room].guests --;
+  } else {
+    if (arrRoomsSelected[room].guests >= $maxAdultsCiudad.bogota) {
+      return false;
     }
 
-    if ($cantAdults.sel > ($cantRooms.sel * $maxAdultsCiudad.bogota)) {
-      $cantAdults.sel = $cantRooms.sel * $maxAdultsCiudad.bogota;
-      document.getElementById("adultsInput").value = $cantAdults.sel === 1 ? `1 huésped` : `${$cantAdults.sel} huéspedes`;
-    }
-
-    $cantAdults.max = $cantRooms.sel * $maxAdultsCiudad.bogota;
-
-    document.getElementById("roomsInput").value = $cantRooms.sel === 1 ? `1 habitación` : `${$cantRooms.sel} habitaciones`;
-    document.querySelector('.number-selector-container .selectQuantityBox[data-type="rooms"] .selectedNumOption').innerText = $cantRooms.sel;
+    arrRoomsSelected[room].guests ++;
   }
 
+  generateRoomsPicker()
+  
 }
+
+
  
 function fixDate(str) {
 
@@ -667,8 +648,9 @@ const data = {
   horaEntrada: hourSelectedCont.cuandoVienes,
   horaSalida: hourSelectedCont.cuandoTeVas,
   hotel: $inputSelectorsCont.selectedHotel,
-  habitaciones: $cantRooms.sel,
-  adultos: $cantAdults.sel,
+  habitaciones: $cantRooms,
+  adultos: $cantAdults,
+  adultosHab: arrRoomsSelected
 }
 
 console.log(data);
