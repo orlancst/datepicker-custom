@@ -563,6 +563,7 @@ body {
   text-align: start;
   padding-left: 0;
   cursor: pointer;
+  display: contents;
 }
 
 .selectRommsGuestsBox .contenedor .roomContainer {
@@ -601,6 +602,7 @@ body {
   font-weight: 600;
   background: none;
   border: none;
+  cursor: pointer;
 }
 
 .selectRommsGuestsBox .numberPicker .minusOption, .selectRommsGuestsBox .numberPicker .addOption {
@@ -611,6 +613,7 @@ body {
   border-radius: 50%;
   display: grid;
   place-items: center;
+  
 }
 
 .selectRommsGuestsBox .numberPicker .selectedNumOption {
@@ -659,6 +662,7 @@ body {
   border-radius: 50%;
   display: grid;
   place-items: center;
+  
 }
 
 .selectQuantityBox .minusOption {
@@ -734,6 +738,7 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
   }
 

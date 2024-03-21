@@ -139,10 +139,10 @@
       </div>
 
       <div class="input-container">
-        <label for="">Hotel</label>
+        <label for="">¿A dónde llegas?</label>
         <div class="custom-select">
           <select name="selectedHotel" id="hotel-select">
-            <option value="-">-</option>
+            <option value="-">Selecciona</option>
             <option value="">Todos</option>
             <option value="ByHours Astor">ByHours Astor</option>
             <option value="ByHours Chiquinquirá">ByHours Chiquinquirá</option>
@@ -152,51 +152,19 @@
         </div>
       </div>
 
-      <!-- <div class="input-container">
-        <label for="">Habitaciones</label>
-        <div class="number-selector-container">
-          <input
-            type="text"
-            class="inputNum"
-            value="1 habitación"
-            id="roomsInput"
-            data-opened="false"
-            data-typename="rooms"
-            readonly
-          />
-        </div>
-      </div> -->
-
       <div class="input-container">
-        <label for="">Habitaciones</label>
+        <label for="">¿Cuántos vienen?</label>
         <div class="rooms-guests-picker">
           <input
             type="text"
             class="inputNum"
-            value="1 adulto - 1 hab"
+            value="Selecciona"
             data-opened="false"
             data-typename="rooms_adults"
-            onclick="openRoomsPicker()"
             readonly
           />
         </div>
       </div>
-
-      
-      <!-- <div class="input-container">
-        <label for="">Adultos</label>
-        <div class="number-selector-container">
-          <input
-            type="text"
-            class="inputNum"
-            value="1 huésped"
-            id="adultsInput"
-            data-opened="false"
-            data-typename="adults"
-            readonly
-          />
-        </div>
-      </div> -->
 
       <button type="button" class="boton-custom boton-reservar" onclick="findBooking()">
         <span class="btn-cont-texto">

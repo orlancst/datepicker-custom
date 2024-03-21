@@ -11,10 +11,10 @@ let $CalendarName = '';//hidden for pass through query parameters.
 
 let $cantAdults = 1;
 let $cantRooms = 1;
-const $maxAdultsCiudad = {barranquilla: 2, bogota: 3};
+const $maxAdultsCiudad = { barranquilla: 2, bogota: 3 };
 
 let arrRoomsSelected = [
-  {guests: 1}
+  { guests: 1 }
 ];
 
 let selectedDateArr = {};
@@ -40,33 +40,33 @@ const weekday = {
 };
 
 const timeOptions = [
-  {f24h: "00:00", f12h: "12:00 a.m."},
-  {f24h: "01:00", f12h: "1:00 a.m."},
-  {f24h: "02:00", f12h: "2:00 a.m."},
-  {f24h: "03:00", f12h: "3:00 a.m."},
-  {f24h: "04:00", f12h: "4:00 a.m."},
-  {f24h: "05:00", f12h: "5:00 a.m."},
-  {f24h: "06:00", f12h: "6:00 a.m."},
-  {f24h: "07:00", f12h: "7:00 a.m."},
-  {f24h: "08:00", f12h: "8:00 a.m."},
-  {f24h: "09:00", f12h: "9:00 a.m."},
-  {f24h: "10:00", f12h: "10:00 a.m."},
-  {f24h: "11:00", f12h: "11:00 a.m."},
-  {f24h: "12:00", f12h: "12:00 p.m."},
-  {f24h: "13:00", f12h: "1:00 p.m."},
-  {f24h: "14:00", f12h: "2:00 p.m."},
-  {f24h: "15:00", f12h: "3:00 p.m."},
-  {f24h: "16:00", f12h: "4:00 p.m."},
-  {f24h: "17:00", f12h: "5:00 p.m."},
-  {f24h: "18:00", f12h: "6:00 p.m."},
-  {f24h: "19:00", f12h: "7:00 p.m."},
-  {f24h: "20:00", f12h: "8:00 p.m."},
-  {f24h: "21:00", f12h: "9:00 p.m."},
-  {f24h: "22:00", f12h: "10:00 p.m."},
-  {f24h: "23:00", f12h: "11:00 p.m."},
+  { f24h: "00:00", f12h: "12:00 a.m." },
+  { f24h: "01:00", f12h: "1:00 a.m." },
+  { f24h: "02:00", f12h: "2:00 a.m." },
+  { f24h: "03:00", f12h: "3:00 a.m." },
+  { f24h: "04:00", f12h: "4:00 a.m." },
+  { f24h: "05:00", f12h: "5:00 a.m." },
+  { f24h: "06:00", f12h: "6:00 a.m." },
+  { f24h: "07:00", f12h: "7:00 a.m." },
+  { f24h: "08:00", f12h: "8:00 a.m." },
+  { f24h: "09:00", f12h: "9:00 a.m." },
+  { f24h: "10:00", f12h: "10:00 a.m." },
+  { f24h: "11:00", f12h: "11:00 a.m." },
+  { f24h: "12:00", f12h: "12:00 p.m." },
+  { f24h: "13:00", f12h: "1:00 p.m." },
+  { f24h: "14:00", f12h: "2:00 p.m." },
+  { f24h: "15:00", f12h: "3:00 p.m." },
+  { f24h: "16:00", f12h: "4:00 p.m." },
+  { f24h: "17:00", f12h: "5:00 p.m." },
+  { f24h: "18:00", f12h: "6:00 p.m." },
+  { f24h: "19:00", f12h: "7:00 p.m." },
+  { f24h: "20:00", f12h: "8:00 p.m." },
+  { f24h: "21:00", f12h: "9:00 p.m." },
+  { f24h: "22:00", f12h: "10:00 p.m." },
+  { f24h: "23:00", f12h: "11:00 p.m." },
 ]
 
-let encima = timeOptions.length -1;
+let encima = timeOptions.length - 1;
 let medio = 0;
 let debajo = 1;
 
@@ -94,7 +94,7 @@ function generarCalendario($year, $month) {
   const daysForMonth = obtenerDiasEnMes($year, $month);
   const firstDayWeekMonth = new Date(`${$year}-${$month + 1}-01`).getDay();
   const firstDayWeekMonthLetter = weekday.short[firstDayWeekMonth];
-  
+
   const currentDate = new Date();
   let prevDateMonth = new Date(`${$month + 1}/01/${$year}`);
   //prevDateMonth.setMonth(prevDateMonth.getMonth() - 1);
@@ -141,28 +141,6 @@ function generarCalendario($year, $month) {
   daysSelectorContainer.innerHTML = str;
 
 }
-
-// allInputCalendars.forEach( el => {
-//   el.addEventListener("click", (e) => {
-    
-//     if (el.getAttribute('data-opened') === 'true') {
-//       el.setAttribute('data-opened', 'false')
-//       cerrarCalendario();
-      
-//       return false;
-//     }
-
-//     const position = el.getBoundingClientRect();
-
-//     calendarPopup.style.top = `${(position.bottom + 5)}px`;
-    
-//     calendarPopup.style.left = `${(position.left - 35)}px`;
-//     el.setAttribute('data-opened', 'true')
-//     calendarPopup.setAttribute('data-opened', 'true')
-//     $CalendarName = el.getAttribute('data-calendar-name');
-//     abrirCalendario(el.getAttribute('data-calendar-name'));
-//   });
-// })
 
 window.onload = function () {
   detectAllCalendars();
@@ -249,27 +227,26 @@ function selectThisDay(e, year, month, day) {
 
   validarFechaHoraFinal(selectedDateArr, selectedHour);
 
-
 }
 
 const validateIfDateIsSelected = (date, dateAr, tiempo) => {
 
   if (dateAr[tiempo] !== undefined) {
-    
-      let fec = dateAr[tiempo].substring(0, 10)
-      const fecha = new Date(fec);
 
-      const selectedDate = document.querySelectorAll('.contenido-calendario .body-calendario .days-selector .days-num');
-      fecha.setHours(fecha.getHours() + 5);
-      console.log(fecha);
-      selectedDate.forEach((el) => {
-        if (el.getAttribute('data-fecha') === `${fecha.getFullYear()}-${fecha.getMonth()}-${fecha.getDate()}`) {
-          el.classList.add('selected-date');
-          return true;
-        }
-      })
-  
-      return false;
+    let fec = dateAr[tiempo].substring(0, 10)
+    const fecha = new Date(fec);
+
+    const selectedDate = document.querySelectorAll('.contenido-calendario .body-calendario .days-selector .days-num');
+    fecha.setHours(fecha.getHours() + 5);
+    console.log(fecha);
+    selectedDate.forEach((el) => {
+      if (el.getAttribute('data-fecha') === `${fecha.getFullYear()}-${fecha.getMonth()}-${fecha.getDate()}`) {
+        el.classList.add('selected-date');
+        return true;
+      }
+    })
+
+    return false;
 
   }
 
@@ -286,7 +263,7 @@ function uncheckAllDate() {
 }
 
 function configSelectors() {
-  
+
   let x, i, j, l, ll, selElmnt, a, b, c;
   /* Look for any elements with the class "custom-select": */
   x = document.getElementsByClassName("custom-select");
@@ -396,7 +373,7 @@ function validarFechaHoraFinal(fecha, hora) {
 }
 
 function timeInitialConfig(encima, medio, debajo) {
-  
+
   let str = '';
 
   str += `<li onclick="chooseHour('up')">${timeOptions[encima].f12h}</li>`;
@@ -418,9 +395,9 @@ function chooseHour(direction) {
 
   } else if (direction === 'down') {
 
-    encima = encima != timeOptions.length - 1 ? encima +1 : 0;
-    medio = medio != timeOptions.length - 1 ? medio +1 : 0;
-    debajo = debajo != timeOptions.length - 1 ? debajo +1 : 0;
+    encima = encima != timeOptions.length - 1 ? encima + 1 : 0;
+    medio = medio != timeOptions.length - 1 ? medio + 1 : 0;
+    debajo = debajo != timeOptions.length - 1 ? debajo + 1 : 0;
 
   }
 
@@ -439,40 +416,47 @@ carruselTimeContainer.addEventListener('wheel', (el) => {
 
 document.body.addEventListener("click", (e) => {
   const calendarIsOpened = calendarPopup.getAttribute("data-opened");
-  const quantityBoxes = document.querySelectorAll('.selectQuantityBox');
+  const selectRommsGuestsBox = document.querySelector('.selectRommsGuestsBox');
 
   allInputCalendars.forEach(elmn => {
 
     if (elmn.contains(e.target)) {
-      
+
       if (elmn.getAttribute('data-opened') === 'true') {
         elmn.setAttribute('data-opened', 'false')
         cerrarCalendario();
-        
+
         return false;
       }
-  
+
       const position = elmn.getBoundingClientRect();
-  
+
       calendarPopup.style.top = `${(position.bottom + 5)}px`;
-      
+
       calendarPopup.style.left = `${(position.left - 35)}px`;
       elmn.setAttribute('data-opened', 'true')
       calendarPopup.setAttribute('data-opened', 'true')
       $CalendarName = elmn.getAttribute('data-calendar-name');
       abrirCalendario(elmn.getAttribute('data-calendar-name'));
     } else if (elmn.getAttribute('data-opened') === 'true' && calendarIsOpened === 'true' && !calendarPopup.contains(e.target)) {
+
       elmn.setAttribute('data-opened', 'false')
       cerrarCalendario();
-      
+
       return false;
-      
+
     }
 
   })
 
   if (document.getElementsByClassName('select-arrow-active').length > 0) {
-      closeAllSelect()
+    closeAllSelect()
+  }
+
+  if (guestPicker.contains(e.target) && selectRommsGuestsBox === null) {
+    openRoomsPicker()
+  } else if (guestPicker.contains(e.target) && selectRommsGuestsBox !== null) {
+    endRoomGuests();
   }
 
 
@@ -483,10 +467,10 @@ function openRoomsPicker() {
 
     let c = `<div class="selectRommsGuestsBox">
     <div class="header-mobile">
+    <span>Huéspedes</span>
     <button type="button" class="close-icon" onclick="endRoomGuests()">
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 490 490" xml:space="preserve"> <polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490   489.292,457.678 277.331,245.004 489.292,32.337 "/> </svg>
     </button>
-    <span>Huéspedes</span>
     </div>
     <div class="contenedor">
     <div class="rommList">
@@ -521,11 +505,11 @@ function generateRoomsPicker() {
   let roomNumber = 1;
   let allGuests = 0;
   let c = ``
-    arrRoomsSelected.forEach((arr, index) => {
+  arrRoomsSelected.forEach((arr, index) => {
 
-      let deleteCont = arrRoomsSelected.length > 1 ? `<button type="button" class="deleteRoomBtn" onclick="deleteRoom(${roomNumber - 1})">Eliminar habitación</button>` : '';
+    let deleteCont = arrRoomsSelected.length > 1 ? `<button type="button" class="deleteRoomBtn" onclick="deleteRoom(${roomNumber - 1})">Eliminar habitación</button>` : '';
 
-      c += `<div class="roomContainer">
+    c += `<div class="roomContainer">
         <label class="roomLabel">Habitación ${roomNumber}</label>
         <div class="adultSelector">
         <span class="adultsText">Adultos</span>
@@ -543,29 +527,39 @@ function generateRoomsPicker() {
       </div>`;
 
 
-      if (index !== arrRoomsSelected.length - 1) {
-        roomNumber++;
-      }
-      allGuests += arr.guests;
+    if (index !== arrRoomsSelected.length - 1) {
+      roomNumber++;
+    }
+    allGuests += arr.guests;
 
-    })
+  })
 
-    document.querySelector(".inputNum[data-typename='rooms_adults']").value = `${allGuests} ${allGuests === 1 ? 'adulto' : 'adultos'} - ${roomNumber} ${roomNumber === 1 ? 'habitación' : 'habitaciones'}`;
+  document.querySelector(".inputNum[data-typename='rooms_adults']").value = `${allGuests} ${allGuests === 1 ? 'adulto' : 'adultos'} - ${roomNumber} ${roomNumber === 1 ? 'habitación' : 'habitaciones'}`;
 
-    $cantAdults = allGuests;
-    $cantRooms = roomNumber;
+  $cantAdults = allGuests;
+  $cantRooms = roomNumber;
 
-    document.querySelector('.selectRommsGuestsBox .contenedor .rommList').innerHTML = c;
+  document.querySelector('.selectRommsGuestsBox .contenedor .rommList').innerHTML = c;
 }
 
 function newRoom() {
-  arrRoomsSelected.push({guests: 1});
-  generateRoomsPicker()
+  if (arrRoomsSelected.length < 5) {
+    arrRoomsSelected.push({ guests: 1 });
+    generateRoomsPicker()
+
+    if (arrRoomsSelected.length >= 5) {
+      document.querySelector('.addRoomBtn').style.display = 'none';
+    }
+  }
 }
 
 function deleteRoom(roomNumber) {
   arrRoomsSelected.splice(roomNumber, 1);
   generateRoomsPicker()
+
+  if (arrRoomsSelected.length < 5) {
+    document.querySelector('.addRoomBtn').style.display = 'block';
+  }
 }
 
 function addDelRooms(room, sumar) {
@@ -575,21 +569,19 @@ function addDelRooms(room, sumar) {
       return false;
     }
 
-    arrRoomsSelected[room].guests --;
+    arrRoomsSelected[room].guests--;
   } else {
     if (arrRoomsSelected[room].guests >= $maxAdultsCiudad.bogota) {
       return false;
     }
 
-    arrRoomsSelected[room].guests ++;
+    arrRoomsSelected[room].guests++;
   }
 
   generateRoomsPicker()
-  
+
 }
 
-
- 
 function fixDate(str) {
 
   str = str.replaceAll(' ', '-')
@@ -618,40 +610,40 @@ function fixDate(str) {
 }
 
 function findBooking() {
-// Send parameters to backend server:
+  // Send parameters to backend server:
 
-if (hourSelectedCont.cuandoVienes === undefined) {
-  console.error('No se ha seleccionado una fecha y hora de entrada');
-  return false;
-}
+  if (hourSelectedCont.cuandoVienes === undefined) {
+    console.error('No se ha seleccionado una fecha y hora de entrada');
+    return false;
+  }
 
-let CuandoVienes = fixDate(hourSelectedCont.cuandoVienes);
+  let CuandoVienes = fixDate(hourSelectedCont.cuandoVienes);
 
-if (hourSelectedCont.cuandoTeVas === undefined) {
-  console.error('No se ha seleccionado una fecha y hora de salida');
-  return false;
-}
+  if (hourSelectedCont.cuandoTeVas === undefined) {
+    console.error('No se ha seleccionado una fecha y hora de salida');
+    return false;
+  }
 
-let CuandoTeVas = fixDate(hourSelectedCont.cuandoTeVas);
+  let CuandoTeVas = fixDate(hourSelectedCont.cuandoTeVas);
 
-if (CuandoTeVas <= CuandoVienes) {
-  console.error('La hora de salida debe ser mayor a la hora de entrada');
-  return false;
-}
+  if (CuandoTeVas <= CuandoVienes) {
+    console.error('La hora de salida debe ser mayor a la hora de entrada');
+    return false;
+  }
 
-if ($inputSelectorsCont.selectedHotel === undefined) {
-  console.error('No se ha seleccionado el hotel.');
-  return false;
-}
+  if ($inputSelectorsCont.selectedHotel === undefined) {
+    console.error('No se ha seleccionado el hotel.');
+    return false;
+  }
 
-const data = {
-  horaEntrada: hourSelectedCont.cuandoVienes,
-  horaSalida: hourSelectedCont.cuandoTeVas,
-  hotel: $inputSelectorsCont.selectedHotel,
-  habitaciones: $cantRooms,
-  adultos: $cantAdults,
-  adultosHab: arrRoomsSelected
-}
+  const data = {
+    horaEntrada: hourSelectedCont.cuandoVienes,
+    horaSalida: hourSelectedCont.cuandoTeVas,
+    hotel: $inputSelectorsCont.selectedHotel,
+    habitaciones: $cantRooms,
+    adultos: $cantAdults,
+    adultosHab: arrRoomsSelected
+  }
 
-console.log(data);
+  console.log(data);
 }
